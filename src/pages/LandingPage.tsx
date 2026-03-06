@@ -21,7 +21,7 @@ export const LandingPage = () => {
       <HeroSection />
       <FeatureHighlight />
       <TemplateGallery />
-      <Pricing />
+      {/* <Pricing /> */}
     </>
   );
 };

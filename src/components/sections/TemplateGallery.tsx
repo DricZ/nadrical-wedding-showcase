@@ -1,51 +1,10 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { MainButton } from "../ui/MainButton";
 import { ArrowRight } from "lucide-react";
+import { templates } from "../../data/templates";
 
 export const TemplateGallery = () => {
-  const templates = [
-    {
-      id: 1,
-      name: "Elegance Minimal",
-      category: "Modern",
-      image:
-        "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
-      aspect: "aspect-[3/4]",
-    },
-    {
-      id: 2,
-      name: "Vintage Floral",
-      category: "Classic",
-      image:
-        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop",
-      aspect: "aspect-[4/3]",
-    },
-    {
-      id: 3,
-      name: "Midnight Gold",
-      category: "Luxury",
-      image:
-        "https://images.unsplash.com/photo-1505932794465-147d1f1b2c97?q=80&w=800&auto=format&fit=crop",
-      aspect: "aspect-[4/5]",
-    },
-    {
-      id: 4,
-      name: "Rustic Earth",
-      category: "Bohemian",
-      image:
-        "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=800&auto=format&fit=crop",
-      aspect: "aspect-square",
-    },
-    {
-      id: 5,
-      name: "Ocean Breeze",
-      category: "Minimalist",
-      image:
-        "https://images.unsplash.com/photo-1532712938730-4e36ccdd42f2?q=80&w=800&auto=format&fit=crop",
-      aspect: "aspect-[3/5]",
-    },
-  ];
+  const featuredTemplates = templates.slice(0, 5);
 
   return (
     <section id="gallery" className="py-24 bg-background">
@@ -62,7 +21,7 @@ export const TemplateGallery = () => {
 
         {/* Pinterest Masonry layout for templates */}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6">
-          {templates.map((template, index) => (
+          {featuredTemplates.map((template, index) => (
             <motion.div
               key={template.id}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -71,8 +30,10 @@ export const TemplateGallery = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`break-inside-avoid mb-6 ${template.aspect}`}
             >
-              <Link
-                to={`/themes/${template.id}`}
+              <a
+                href={template.demoUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full"
               >
                 {/* Immersive Image Background */}
@@ -82,7 +43,7 @@ export const TemplateGallery = () => {
                 />
 
                 {/* Refined Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
 
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
                   <p className="text-white/70 font-jakarta-medium text-xs mb-3 uppercase tracking-[0.2em]">
@@ -97,7 +58,7 @@ export const TemplateGallery = () => {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             </motion.div>
           ))}
         </div>

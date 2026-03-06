@@ -12,8 +12,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     settings?.default_description ||
     "Undangan pernikahan digital premium dengan desain elegan, fitur lengkap, dan pengalaman yang tak terlupakan untuk momen spesial Anda.";
 
-  // Favicon logic - use specific favicon if exists, fallback to app_logo, then default vite svg
-  const favicon = settings?.favicon || settings?.app_logo || "/vite.svg";
+  // Favicon logic - use specific favicon if exists, fallback to app_logo, then default favicon.ico
+  const favicon = settings?.favicon || settings?.app_logo || "/favicon.ico";
   const themeColor = settings?.theme_color || "#c5a47e"; // Fallback to a primary-ish color
   const companyWebsite = settings?.company_website || "https://nadrical.my.id";
 
