@@ -3,11 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import { MainButton } from "./ui/MainButton";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSettings } from "../contexts/SettingsContext";
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,12 +36,22 @@ export const Navbar = () => {
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         <Link
           to="/"
-          className="font-space-bold text-2xl tracking-tighter text-primary"
+          className="font-space-bold text-2xl tracking-tighter text-primary flex items-center gap-2"
         >
-          Nadrical
-          <span className="text-muted-foreground font-space-regular text-xl">
-            .wedding
-          </span>
+          {settings?.app_logo ? (
+            <img
+              src={settings.app_logo}
+              alt={settings?.app_name || "Logo"}
+              className="h-8 w-auto object-contain"
+            />
+          ) : (
+            <>
+              {settings?.app_name || "Nadrical"}
+              <span className="text-muted-foreground font-space-regular text-xl">
+                .wedding
+              </span>
+            </>
+          )}
         </Link>
 
         {/* Desktop Nav */}

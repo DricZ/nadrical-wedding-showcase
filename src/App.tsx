@@ -3,14 +3,18 @@ import { Layout } from "./components/Layout";
 import { LandingPage } from "./pages/LandingPage";
 import { ThemeShowcase } from "./pages/ThemeShowcase";
 
+import { SettingsProvider } from "./contexts/SettingsContext";
+
 function App() {
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/themes" element={<ThemeShowcase />} />
-      </Routes>
-    </Layout>
+    <SettingsProvider>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/themes" element={<ThemeShowcase />} />
+        </Routes>
+      </Layout>
+    </SettingsProvider>
   );
 }
 

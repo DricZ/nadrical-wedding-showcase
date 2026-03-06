@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import { MainButton } from "../ui/MainButton";
 import { Check } from "lucide-react";
+import { useSettings } from "../../contexts/SettingsContext";
 
 export const Pricing = () => {
+  const { settings } = useSettings();
+  const waNumber = settings?.company_phone
+    ? settings.company_phone.replace(/\D/g, "")
+    : "6281234567890";
+  const appName = settings?.app_name || "Nadrical";
+
   const plans = [
     {
       name: "Basic",
@@ -119,7 +126,7 @@ export const Pricing = () => {
                   text="Pilih Paket Ini"
                   variant={plan.popular ? "primary" : "outline"}
                   fullWidth
-                  href={`https://wa.me/6281234567890?text=Halo Nadrical, saya tertarik dengan paket ${plan.name} seharga Rp ${plan.price}`}
+                  href={`https://wa.me/${waNumber}?text=Halo ${appName}, saya tertarik dengan paket ${plan.name} seharga Rp ${plan.price}`}
                   external
                 />
               </div>
