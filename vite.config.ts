@@ -20,5 +20,4 @@ export default defineConfig({
       '9d62-103-158-162-221.ngrok-free.app'
     ]
   },
-  base: '/gallery-app/',
 })

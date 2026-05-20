@@ -23,7 +23,7 @@ jobs:
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      - name: Deploy to server
+      - name: Upload to temp folder
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -31,15 +31,18 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: "dist/*"
-          target: "/www/wwwroot/wedding-wp-core"
+          target: "/tmp/showcase-deploy"
           strip_components: 1
-          overwrite: true
+          rm: true
 
-      - name: Fix permissions
+      - name: Copy to target and fix permissions
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          script: chown -R www:www /www/wwwroot/wedding-wp-core
+          script: |
+            cp -rf /tmp/showcase-deploy/* /www/wwwroot/wedding-wp-core/
+            chown -R www:www /www/wwwroot/wedding-wp-core
+            rm -rf /tmp/showcase-deploy
