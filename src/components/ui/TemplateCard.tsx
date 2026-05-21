@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import type { TemplateFormData } from "../../data/templates";
+import { Dialog, DialogContent, DialogTrigger } from "./dialog";
 
 interface TemplateCardProps {
   template: TemplateFormData;
@@ -16,35 +17,50 @@ export function TemplateCard({ template, index }: TemplateCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`break-inside-avoid mb-6 ${template.aspect}`}
     >
-      <a
-        href={template.demoUrl || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500"
-      >
-        {/* Immersive Image Background */}
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-          style={{ backgroundImage: `url(${template.image})` }}
-        />
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500">
+            {/* Immersive Image Background */}
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+              style={{ backgroundImage: `url(${template.image})` }}
+            />
 
-        {/* Refined Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+            {/* Refined Gradient Overlay */}
+            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
 
-        <div className="absolute inset-0 p-8 flex flex-col justify-end">
-          <p className="text-white/70 font-jakarta-medium text-xs mb-3 uppercase tracking-[0.2em]">
-            {template.category}
-          </p>
-          <div className="flex items-center justify-between">
-            <h3 className="font-space-bold text-3xl text-white tracking-tight">
-              {template.name}
-            </h3>
-            <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out shadow-2xl">
-              <ArrowRight size={20} />
+            <div className="absolute inset-0 p-8 flex flex-col justify-end">
+              <p className="text-white/70 font-jakarta-medium text-xs mb-3 uppercase tracking-[0.2em]">
+                {template.category}
+              </p>
+              <div className="flex items-center justify-between">
+                <h3 className="font-space-bold text-3xl text-white tracking-tight">
+                  {template.name}
+                </h3>
+                <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out shadow-2xl">
+                  <Maximize2 size={20} />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </a>
+        </DialogTrigger>
+        <DialogContent className="max-w-[95vw] w-full h-[90vh] p-2 sm:p-4 overflow-hidden border-border bg-background rounded-2xl">
+          {template.demoUrl ? (
+            <div className="w-full h-full rounded-xl overflow-hidden relative bg-muted">
+              <iframe
+                src={template.demoUrl}
+                className="w-full h-full border-none absolute inset-0"
+                title={`Preview of ${template.name}`}
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-full h-full text-muted-foreground font-jakarta text-lg">
+              Pratinjau tidak tersedia
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
