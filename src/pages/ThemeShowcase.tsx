@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Filter, Loader2 } from "lucide-react";
-
+import { Filter, Loader2 } from "lucide-react";
+import { TemplateCard } from "../components/ui/TemplateCard";
 import { templates as staticTemplates, templateCategories, type TemplateFormData } from "../data/templates";
 import {
   fetchWeddingTemplates,
@@ -230,46 +230,17 @@ export const ThemeShowcase = () => {
               >
                 <AnimatePresence mode="popLayout">
                   {displayTemplates.length > 0 ? (
-                    displayTemplates.map((template) => (
-                      <motion.div
+                    displayTemplates.map((template, index) => (
+                      <TemplateCard 
                         key={template.id}
+                        template={template} 
+                        index={index}
                         layout
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.4 }}
-                        className={`break-inside-avoid mb-6 ${template.aspect}`}
-                      >
-                        <a
-                          href={template.demoUrl || "#"}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="relative block w-full h-full overflow-hidden border cursor-pointer group rounded-2xl border-border"
-                        >
-                          {/* Immersive Background */}
-                          <div
-                            className="absolute inset-0 transition-transform duration-700 ease-out bg-center bg-cover group-hover:scale-105"
-                            style={{ backgroundImage: `url(${template.image})` }}
-                          />
-
-                          {/* Refined Gradient Overlay */}
-                          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-
-                          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                            <p className="text-white/70 font-jakarta-medium text-xs mb-2 uppercase tracking-[0.2em]">
-                              {template.category}
-                            </p>
-                            <div className="flex items-center justify-between">
-                              <h3 className="text-2xl tracking-tight text-white font-space-bold md:text-3xl">
-                                {template.name}
-                              </h3>
-                              <div className="flex items-center justify-center w-10 h-10 text-white transition-all duration-500 ease-out transform translate-y-4 border rounded-full shadow-2xl opacity-0 md:w-12 md:h-12 bg-white/10 backdrop-blur-md border-white/20 group-hover:opacity-100 group-hover:translate-y-0">
-                                <ArrowRight size={20} />
-                              </div>
-                            </div>
-                          </div>
-                        </a>
-                      </motion.div>
+                      />
                     ))
                   ) : (
                     <div className="py-24 text-center col-span-full">

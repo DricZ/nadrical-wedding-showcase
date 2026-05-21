@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { Maximize2 } from "lucide-react";
 import type { TemplateFormData } from "../../data/templates";
 import { Dialog, DialogContent, DialogTrigger } from "./dialog";
 import { Skeleton } from "./skeleton";
 
-interface TemplateCardProps {
+interface TemplateCardProps extends HTMLMotionProps<"div"> {
   template: TemplateFormData;
   index: number;
 }
 
-export function TemplateCard({ template, index }: TemplateCardProps) {
+export function TemplateCard({ template, index, ...motionProps }: TemplateCardProps) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   return (
@@ -20,15 +20,30 @@ export function TemplateCard({ template, index }: TemplateCardProps) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`break-inside-avoid mb-6 ${template.aspect}`}
+      {...motionProps}
     >
       <Dialog onOpenChange={(open) => !open && setIframeLoaded(false)}>
         <DialogTrigger asChild>
-          <div className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500">
-            {/* Immersive Image Background */}
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-              style={{ backgroundImage: `url(${template.image})` }}
-            />
+          <div className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500 bg-muted">
+            {/* Immersive Image Background or Iframe Fallback */}
+            {template.image ? (
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                style={{ backgroundImage: `url(${template.image})` }}
+              />
+            ) : template.demoUrl ? (
+              <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none opacity-80 overflow-hidden">
+                <iframe 
+                  src={template.demoUrl} 
+                  className="w-[400%] h-[400%] origin-top-left scale-[0.25] border-none" 
+                  tabIndex={-1} 
+                  aria-hidden="true" 
+                  sandbox="allow-same-origin allow-scripts"
+                />
+              </div>
+            ) : (
+              <div className="absolute inset-0 bg-muted transition-transform duration-700 ease-out group-hover:scale-105" />
+            )}
 
             {/* Refined Gradient Overlay */}
             <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
