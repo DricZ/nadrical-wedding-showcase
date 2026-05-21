@@ -27,14 +27,17 @@ export function TemplateCard({ template, index, ...motionProps }: TemplateCardPr
           <div className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500 bg-muted">
             {/* Immersive Image Background or Iframe Fallback */}
             {template.image ? (
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{ backgroundImage: `url(${template.image})` }}
+              <img
+                src={template.image}
+                alt={template.name}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
             ) : template.demoUrl ? (
               <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none opacity-80 overflow-hidden">
                 <iframe 
                   src={template.demoUrl} 
+                  loading="lazy"
                   className="w-[400%] h-[400%] origin-top-left scale-[0.25] border-none" 
                   tabIndex={-1} 
                   aria-hidden="true" 
