@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Maximize2 } from "lucide-react";
 import type { TemplateFormData } from "../../data/templates";
 import { Dialog, DialogContent, DialogTrigger } from "./dialog";
+import { Skeleton } from "./skeleton";
 
 interface TemplateCardProps {
   template: TemplateFormData;
@@ -9,6 +11,8 @@ interface TemplateCardProps {
 }
 
 export function TemplateCard({ template, index }: TemplateCardProps) {
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -17,7 +21,7 @@ export function TemplateCard({ template, index }: TemplateCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`break-inside-avoid mb-6 ${template.aspect}`}
     >
-      <Dialog>
+      <Dialog onOpenChange={(open) => !open && setIframeLoaded(false)}>
         <DialogTrigger asChild>
           <div className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500">
             {/* Immersive Image Background */}
@@ -47,9 +51,13 @@ export function TemplateCard({ template, index }: TemplateCardProps) {
         <DialogContent className="max-w-[95vw] w-full h-[90vh] p-2 sm:p-4 overflow-hidden border-border bg-background rounded-2xl">
           {template.demoUrl ? (
             <div className="w-full h-full rounded-xl overflow-hidden relative bg-muted">
+              {!iframeLoaded && (
+                <Skeleton className="w-full h-full absolute inset-0 z-10" />
+              )}
               <iframe
                 src={template.demoUrl}
-                className="w-full h-full border-none absolute inset-0"
+                onLoad={() => setIframeLoaded(true)}
+                className={`w-full h-full border-none absolute inset-0 transition-opacity duration-500 ${iframeLoaded ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}
                 title={`Preview of ${template.name}`}
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
               />
