@@ -12,7 +12,7 @@ export const LandingPage = () => {
   return (
     <>
       <Helmet>
-        <title>{appName} w - Buat Undangan Digital Premium</title>
+        <title>{appName} - Buat Undangan Digital Premium</title>
         <meta
           name="description"
           content={`Buat undangan pernikahan digital premium dengan ${appName}. Desain elegan, fitur lengkap, dan kemudahan dalam hitungan menit.`}
