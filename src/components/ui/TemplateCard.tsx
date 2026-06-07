@@ -1,4 +1,4 @@
-import { useState, memo, useRef } from "react";
+import { useState, memo, useRef, useEffect } from "react";
 import { motion, type HTMLMotionProps, useInView } from "framer-motion";
 import { Maximize2, MonitorPlay, Loader2 } from "lucide-react";
 import type { TemplateFormData } from "../../data/templates";
@@ -11,7 +11,6 @@ interface TemplateCardProps extends HTMLMotionProps<"div"> {
 
 export const TemplateCard = memo(function TemplateCard({ template, index, ...motionProps }: TemplateCardProps) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [previewIframeLoaded, setPreviewIframeLoaded] = useState(false);
   
   // Ref for intersection observer to mount/unmount iframe
   const cardRef = useRef<HTMLDivElement>(null);
@@ -48,24 +47,9 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
                 
                 {/* Render iframe ONLY when the card is in view to save CPU/RAM. Unmounts automatically when off-screen. */}
                 {isCardInView ? (
-                  <>
-                    {/* Show a loading spinner while the iframe is loading */}
-                    {!previewIframeLoaded && (
-                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-muted/20 z-10">
-                         <Loader2 className="animate-spin text-primary" size={24} />
-                         <span className="font-jakarta text-xs uppercase tracking-wider text-muted-foreground">Memuat Tampilan...</span>
-                       </div>
-                    )}
-                    <iframe 
-                      src={template.demoUrl} 
-                      loading="lazy"
-                      onLoad={() => setPreviewIframeLoaded(true)}
-                      className={`w-[400%] h-[400%] origin-top-left scale-[0.25] border-none transition-opacity duration-500 ${previewIframeLoaded ? 'opacity-100' : 'opacity-0'}`} 
-                      tabIndex={-1} 
-                      aria-hidden="true" 
-                      sandbox="allow-same-origin allow-scripts"
-                    />
-                  </>
+                  <IframePreview 
+                    demoUrl={template.demoUrl} 
+                  />
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-3 text-muted-foreground opacity-50 z-10">
                     <MonitorPlay size={32} />
@@ -121,5 +105,38 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
         </DialogContent>
       </Dialog>
     </motion.div>
+  );
+});
+
+// Extracted component to handle individual iframe loading state and timeout
+const IframePreview = memo(({ demoUrl }: { demoUrl: string }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    // Fallback: If iframe doesn't load within 5 seconds, force show it anyway.
+    // This handles cases where adblockers or mixed-content block the load event but the iframe might still have some content (or an error) to display.
+    const timer = setTimeout(() => {
+      setLoaded(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [demoUrl]);
+
+  return (
+    <>
+      {!loaded && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-muted/20 z-10">
+          <Loader2 className="animate-spin text-primary" size={24} />
+          <span className="font-jakarta text-xs uppercase tracking-wider text-muted-foreground">Memuat Tampilan...</span>
+        </div>
+      )}
+      <iframe 
+        src={demoUrl} 
+        onLoad={() => setLoaded(true)}
+        className={`w-[400%] h-[400%] origin-top-left scale-[0.25] border-none transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`} 
+        tabIndex={-1} 
+        aria-hidden="true" 
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
+      />
+    </>
   );
 });
