@@ -9,7 +9,7 @@ import {
   type PaginationMeta,
 } from "../services/api";
 
-import { Helmet } from "react-helmet-async";
+import { SEO } from "../components/SEO";
 import { useSettings } from "../contexts/SettingsContext";
 
 const aspectRatios = [
@@ -152,13 +152,11 @@ export const ThemeShowcase = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Katalog Tema | {appName}</title>
-        <meta
-          name="description"
-          content={`Jelajahi berbagai pilihan desain tema premium untuk menyempurnakan cerita pernikahan Anda bersama ${appName}.`}
-        />
-      </Helmet>
+      <SEO 
+        title="Katalog Tema" 
+        description={`Jelajahi berbagai pilihan desain tema premium untuk menyempurnakan cerita pernikahan Anda bersama ${appName}.`} 
+        url="/themes"
+      />
       <div className="min-h-screen pt-32 pb-24 bg-background">
         <div className="container px-6 mx-auto md:px-12">
           {/* Header section */}

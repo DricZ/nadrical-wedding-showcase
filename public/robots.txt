@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Control AI Crawlers (Optional - blocking AI from scraping content, but allowing standard search engines)
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://wedding.nadrical.my.id/sitemap.xml

@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import { SEO } from "../components/SEO";
 import { HeroSection } from "../components/sections/HeroSection";
 import { FeatureHighlight } from "../components/sections/FeatureHighlight";
 import { TemplateGallery } from "../components/sections/TemplateGallery";
@@ -11,13 +11,11 @@ export const LandingPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{appName} - Buat Undangan Digital Premium</title>
-        <meta
-          name="description"
-          content={`Buat undangan pernikahan digital premium dengan ${appName}. Desain elegan, fitur lengkap, dan kemudahan dalam hitungan menit.`}
-        />
-      </Helmet>
+      <SEO 
+        title="Buat Undangan Digital Premium" 
+        description={`Buat undangan pernikahan digital premium dengan ${appName}. Desain elegan, fitur lengkap, dan kemudahan dalam hitungan menit.`} 
+        url="/"
+      />
       <HeroSection />
       <FeatureHighlight />
       <TemplateGallery />
