@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef, useTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, Loader2 } from "lucide-react";
 import { TemplateCard } from "../components/ui/TemplateCard";
@@ -89,6 +89,8 @@ export const ThemeShowcase = () => {
     [templates.length],
   );
 
+  const [isPending, startTransition] = useTransition();
+
   // Initial load
   useEffect(() => {
     loadTemplates(1, undefined, true);
@@ -100,9 +102,12 @@ export const ThemeShowcase = () => {
     (name: string, slug?: string) => {
       setActiveCategory(name);
       setActiveCategorySlug(slug);
-      setTemplates([]);
-      setMeta(null);
-      setPage(1);
+      
+      startTransition(() => {
+        setTemplates([]);
+        setMeta(null);
+        setPage(1);
+      });
       loadTemplates(1, slug, true);
     },
     [loadTemplates],

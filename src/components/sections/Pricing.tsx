@@ -43,7 +43,7 @@ export const Pricing = () => {
     },
     {
       name: "Exclusive",
-      price: "500K",
+      price: "Mulai Dari 500K",
       description:
         "Pelayanan spesial dengan kustomisasi desain sesuai tema Anda.",
       features: [
@@ -59,19 +59,19 @@ export const Pricing = () => {
   ];
 
   return (
-    <section id="pricing" className="py-24 bg-card border-t border-border">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl md:text-5xl font-space-bold text-foreground mb-6">
+    <section id="pricing" className="py-24 border-t bg-card border-border">
+      <div className="container px-6 mx-auto md:px-12">
+        <div className="max-w-3xl mx-auto mb-16 text-center">
+          <h2 className="mb-6 text-4xl md:text-5xl font-space-bold text-foreground">
             Pilihan Paket
           </h2>
-          <p className="font-jakarta text-lg text-muted-foreground">
+          <p className="text-lg font-jakarta text-muted-foreground">
             Harga transparan tanpa biaya tersembunyi. Pilih paket yang paling
             sesuai dengan kebutuhan pernikahan Anda.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid max-w-6xl grid-cols-1 gap-8 mx-auto md:grid-cols-3">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -92,14 +92,14 @@ export const Pricing = () => {
               )}
 
               <div className="mb-8">
-                <h3 className="font-space-bold text-2xl text-foreground mb-2">
+                <h3 className="mb-2 text-2xl font-space-bold text-foreground">
                   {plan.name}
                 </h3>
-                <p className="font-jakarta text-sm text-muted-foreground h-10">
+                <p className="h-10 text-sm font-jakarta text-muted-foreground">
                   {plan.description}
                 </p>
-                <div className="mt-6 flex items-baseline gap-1">
-                  <span className="font-space-bold text-4xl text-foreground">
+                <div className="flex items-baseline gap-1 mt-6">
+                  <span className="text-4xl font-space-bold text-foreground">
                     Rp {plan.price}
                   </span>
                   <span className="font-jakarta text-muted-foreground">
@@ -113,7 +113,7 @@ export const Pricing = () => {
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <Check size={20} className="text-primary shrink-0" />
-                      <span className="font-jakarta text-sm text-foreground/80">
+                      <span className="text-sm font-jakarta text-foreground/80">
                         {feature}
                       </span>
                     </li>
@@ -121,7 +121,7 @@ export const Pricing = () => {
                 </ul>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-border">
+              <div className="pt-8 mt-8 border-t border-border">
                 <MainButton
                   text="Pilih Paket Ini"
                   variant={plan.popular ? "primary" : "outline"}
