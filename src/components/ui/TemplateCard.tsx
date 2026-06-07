@@ -1,5 +1,5 @@
-import { useState, memo } from "react";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { useState, memo, useRef } from "react";
+import { motion, type HTMLMotionProps, useInView } from "framer-motion";
 import { Maximize2, MonitorPlay } from "lucide-react";
 import type { TemplateFormData } from "../../data/templates";
 import { Dialog, DialogContent, DialogTrigger } from "./dialog";
@@ -12,15 +12,16 @@ interface TemplateCardProps extends HTMLMotionProps<"div"> {
 
 export const TemplateCard = memo(function TemplateCard({ template, index, ...motionProps }: TemplateCardProps) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  
+  // Ref for intersection observer to mount/unmount iframe
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isCardInView = useInView(cardRef, { margin: "200px 0px 200px 0px" }); // Pre-load slightly before it enters screen
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "200px" }}
-      onViewportEnter={() => setIsInView(true)}
       transition={{ duration: 0.5, delay: (index % 10) * 0.05 }}
       className={`break-inside-avoid mb-6 ${template.aspect}`}
       style={{ contentVisibility: "auto" }}
@@ -29,9 +30,8 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
       <Dialog onOpenChange={(open) => !open && setIframeLoaded(false)}>
         <DialogTrigger asChild>
           <div 
+            ref={cardRef}
             className="group relative overflow-hidden rounded-3xl border border-border cursor-pointer block w-full h-full shadow-sm hover:shadow-xl transition-shadow duration-500 bg-muted"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
           >
             {/* Immersive Image Background or Iframe Fallback */}
             {template.image ? (
@@ -44,9 +44,8 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
               />
             ) : template.demoUrl ? (
               <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none opacity-80 overflow-hidden bg-muted/50 flex items-center justify-center">
-                {/* Only render iframe for thumbnail if hovered on desktop, to save massive memory and CPU. 
-                    If not hovered, show a placeholder icon. */}
-                {isInView && isHovered ? (
+                {/* Render iframe ONLY when the card is in view to save CPU/RAM. Unmounts automatically when off-screen. */}
+                {isCardInView ? (
                   <iframe 
                     src={template.demoUrl} 
                     loading="lazy"
@@ -58,7 +57,7 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground opacity-50">
                     <MonitorPlay size={32} />
-                    <span className="font-jakarta text-xs uppercase tracking-wider">Interactive Preview</span>
+                    <span className="font-jakarta text-xs uppercase tracking-wider">Memuat Pratinjau...</span>
                   </div>
                 )}
               </div>
