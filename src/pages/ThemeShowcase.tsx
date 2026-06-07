@@ -231,7 +231,7 @@ export const ThemeShowcase = () => {
             <>
               <motion.div
                 layout
-                className="gap-6 columns-1 sm:columns-2 lg:columns-3"
+                className={`gap-6 columns-1 sm:columns-2 lg:columns-3 transition-opacity duration-300 ${isPending ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
               >
                 <AnimatePresence mode="popLayout">
                   {displayTemplates.length > 0 ? (
