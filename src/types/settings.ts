@@ -1,6 +1,8 @@
 export interface AppSettings {
   app_name?: string;
   app_logo?: string;
+  wedding_logo?: string;
+  wedding_favicon?: string;
   secondary_logo?: string;
   company_phone?: string;
   company_website?: string;

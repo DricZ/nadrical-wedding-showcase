@@ -5,27 +5,27 @@ export const Footer = () => {
   const { settings } = useSettings();
 
   return (
-    <footer className="bg-card py-12 border-t border-border mt-auto">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="py-12 mt-auto border-t bg-card border-border">
+      <div className="container px-6 mx-auto md:px-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="col-span-1 md:col-span-2">
-            <h2 className="font-space-bold text-2xl text-primary mb-4 flex items-center gap-2">
-              {settings?.secondary_logo || settings?.app_logo ? (
+            <h2 className="flex items-center gap-2 mb-4 text-2xl font-space-bold text-primary">
+              {settings?.wedding_logo || settings?.app_logo ? (
                 <img
-                  src={settings?.secondary_logo || settings.app_logo}
+                  src={settings?.wedding_logo || settings.app_logo}
                   alt={settings?.app_name || "Logo"}
-                  className="h-8 w-auto object-contain"
+                  className="object-contain w-auto h-8"
                 />
               ) : (
                 <>
                   {settings?.app_name || "Nadrical"}
-                  <span className="text-muted-foreground font-space-regular text-xl">
+                  <span className="text-xl text-muted-foreground font-space-regular">
                     .wedding
                   </span>
                 </>
               )}
             </h2>
-            <p className="text-muted-foreground font-jakarta text-sm leading-relaxed max-w-sm">
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground font-jakarta">
               Undangan pernikahan digital premium dengan desain elegan, fitur
               lengkap, dan pengalaman yang tak terlupakan untuk momen spesial
               Anda.
@@ -33,12 +33,12 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-space-medium text-foreground mb-4">Layanan</h3>
+            <h3 className="mb-4 font-space-medium text-foreground">Layanan</h3>
             <ul className="flex flex-col gap-2">
               <li>
                 <Link
                   to="/"
-                  className="font-jakarta text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   Undangan Website
                 </Link>
@@ -46,7 +46,7 @@ export const Footer = () => {
               <li>
                 <Link
                   to="/themes"
-                  className="font-jakarta text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   Katalog Tema
                 </Link>
@@ -54,7 +54,7 @@ export const Footer = () => {
               <li>
                 <Link
                   to="/#pricing"
-                  className="font-jakarta text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   Harga Paket
                 </Link>
@@ -63,7 +63,7 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-space-medium text-foreground mb-4">Kontak</h3>
+            <h3 className="mb-4 font-space-medium text-foreground">Kontak</h3>
             <ul className="flex flex-col gap-2">
               {settings?.company_phone && (
                 <li>
@@ -71,7 +71,7 @@ export const Footer = () => {
                     href={`https://wa.me/${settings.company_phone.replace(/\D/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-jakarta text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                   >
                     WhatsApp
                   </a>
@@ -83,7 +83,7 @@ export const Footer = () => {
                     href={`https://${settings.company_website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-jakarta text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                   >
                     Website
                   </a>
@@ -92,7 +92,7 @@ export const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="font-jakarta text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   Email
                 </a>
@@ -101,8 +101,8 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-jakarta text-xs text-muted-foreground">
+        <div className="flex flex-col items-center justify-between gap-4 pt-8 mt-12 border-t border-border md:flex-row">
+          <p className="text-xs font-jakarta text-muted-foreground">
             &copy; {new Date().getFullYear()}{" "}
             {settings?.copyright || settings?.app_name || "Nadrical Wedding"}.
             All rights reserved.
