@@ -132,7 +132,7 @@ const IframePreview = memo(({ demoUrl }: { demoUrl: string }) => {
       <iframe 
         src={demoUrl} 
         onLoad={() => setLoaded(true)}
-        className={`w-[400%] h-[400%] origin-top-left scale-[0.25] border-none transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`} 
+        className={`absolute top-0 left-0 w-[400%] h-[400%] origin-top-left scale-[0.25] border-none transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`} 
         tabIndex={-1} 
         aria-hidden="true" 
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
