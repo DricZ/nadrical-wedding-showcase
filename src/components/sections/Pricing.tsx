@@ -14,13 +14,14 @@ export const Pricing = () => {
     {
       name: "Basic",
       price: "150K",
-      description: "Pilihan tepat untuk akad nikah dan perayaan intim keluarga.",
+      description:
+        "Ideal for intimate ceremonies, holy matrimony, or close family gatherings.",
       features: [
-        "Khusus Unggah Foto (Maks. 4 Foto / Tamu)",
-        "Kapasitas Hingga 50 Tamu Undangan",
-        "Akses Scan QR Meja (Tanpa Unduh Aplikasi)",
-        "Buku Tamu Digital & Ucapan Real-Time",
-        "Download Galeri Foto Resolusi Penuh",
+        "Photo Uploads Only (Max 4 photos / guest, public or private)",
+        "Up to 50 Invited Guests",
+        "Instant Table QR Code Access (No app required)",
+        "Digital Wedding Gallery (Instagram-style feed & stories)",
+        "Interactive Gallery with Real-Time Likes",
       ],
       popular: false,
     },
@@ -28,14 +29,13 @@ export const Pricing = () => {
       name: "Premium",
       price: "250K",
       description:
-        "Paket terfavorit untuk pesta resepsi meriah dan penuh interaksi.",
+        "Our most popular choice for lively celebrations with rich guest interactions.",
       features: [
-        "Semua Fitur Paket Basic Termasuk",
-        "Unggah Foto & Video (Maks. 6 Media / Tamu)",
-        "Kapasitas Hingga 200 Tamu Undangan",
-        "Fitur Pin Foto Pilihan di Galeri Utama",
-        "Live Screen Display untuk Proyektor Venue",
-        "Penyimpanan Galeri Aktif 1 Tahun Penuh",
+        "Includes All Basic Plan Features",
+        "Photo & Video Uploads (Max 6 media items / guest)",
+        "Up to 200 Invited Guests",
+        "Pin Featured Photos to Gallery Top",
+        "Interactive Gallery with Real-Time Likes & Comments",
       ],
       popular: true,
     },
@@ -43,14 +43,13 @@ export const Pricing = () => {
       name: "Exclusive",
       price: "500K",
       description:
-        "Solusi all-in-one tanpa batas untuk pesta megah dan bebas khawatir.",
+        "All-in-one unlimited experience for grand celebrations with total peace of mind.",
       features: [
-        "Semua Fitur Paket Premium Termasuk",
-        "Unlimited Unggah Foto & Video Tanpa Batas",
-        "Unlimited Kuota Tamu Undangan",
-        "Kontrol Moderasi Host & Filter Layar Live",
-        "Kustomisasi Desain Layar Sesuai Tema Acara",
-        "Prioritas Support Dedicated 24/7 Saat Acara",
+        "Includes All Premium Plan Features",
+        "Unlimited Photo & Video Uploads",
+        "Unlimited Invited Guests",
+        "Host Moderation & Content Approval Controls",
+        "Priority 24/7 Dedicated Event Support",
       ],
       popular: false,
     },
@@ -61,11 +60,11 @@ export const Pricing = () => {
       <div className="container px-6 mx-auto md:px-12">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 className="mb-6 text-4xl md:text-5xl font-space-bold text-foreground">
-            Pilihan Paket
+            Pricing Plans
           </h2>
           <p className="text-lg font-jakarta text-muted-foreground">
-            Harga transparan tanpa biaya tersembunyi. Pilih paket yang paling
-            sesuai dengan kebutuhan pernikahan Anda.
+            Transparent pricing with no hidden fees. Choose the ideal plan to
+            capture and celebrate your wedding memories.
           </p>
         </div>
 
@@ -85,7 +84,7 @@ export const Pricing = () => {
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-jakarta-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                  Terpopuler
+                  Most Popular
                 </div>
               )}
 
@@ -118,10 +117,10 @@ export const Pricing = () => {
 
               <div className="pt-8 mt-8 border-t border-border">
                 <MainButton
-                  text="Pilih Paket Ini"
+                  text="Choose Plan"
                   variant={plan.popular ? "primary" : "outline"}
                   fullWidth
-                  href={`https://wa.me/${waNumber}?text=Halo ${appName}, saya tertarik dengan paket ${plan.name} seharga Rp ${plan.price}`}
+                  href={`https://wa.me/${waNumber}?text=Hi ${appName}, I am interested in the ${plan.name} plan (Rp ${plan.price})`}
                   external
                 />
               </div>
