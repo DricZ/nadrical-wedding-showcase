@@ -14,30 +14,28 @@ export const Pricing = () => {
     {
       name: "Basic",
       price: "150K",
-      description: "Cocok untuk pernikahan intim dengan tamu terbatas.",
+      description: "Pilihan tepat untuk akad nikah dan perayaan intim keluarga.",
       features: [
-        "Photo Only",
-        "4 Photo",
-        "Max 50 Guests",
-        "Navigasi Lokasi",
-        "Tanpa Custom Musik",
-        "Max 100 Tamu",
+        "Khusus Unggah Foto (Maks. 4 Foto / Tamu)",
+        "Kapasitas Hingga 50 Tamu Undangan",
+        "Akses Scan QR Meja (Tanpa Unduh Aplikasi)",
+        "Buku Tamu Digital & Ucapan Real-Time",
+        "Download Galeri Foto Resolusi Penuh",
       ],
       popular: false,
     },
     {
       name: "Premium",
-      price: "250k",
+      price: "250K",
       description:
-        "Kustomisasi penuh dengan fitur interaktif untuk momen terbaik.",
+        "Paket terfavorit untuk pesta resepsi meriah dan penuh interaksi.",
       features: [
-        "All Basic Feature",
-        "Foto & Video",
-        "Max 200 Guests",
-        "Custom Musik Latar",
-        "Galeri Foto (Max 20)",
-        "Hitung Mundur Acara",
-        "Kirim via WhatsApp",
+        "Semua Fitur Paket Basic Termasuk",
+        "Unggah Foto & Video (Maks. 6 Media / Tamu)",
+        "Kapasitas Hingga 200 Tamu Undangan",
+        "Fitur Pin Foto Pilihan di Galeri Utama",
+        "Live Screen Display untuk Proyektor Venue",
+        "Penyimpanan Galeri Aktif 1 Tahun Penuh",
       ],
       popular: true,
     },
@@ -45,14 +43,14 @@ export const Pricing = () => {
       name: "Exclusive",
       price: "500K",
       description:
-        "Pelayanan spesial dengan kustomisasi desain sesuai tema Anda.",
+        "Solusi all-in-one tanpa batas untuk pesta megah dan bebas khawatir.",
       features: [
-        "Semua Fitur Premium",
-        "Masa Aktif Selamanya",
-        "Desain Custom Eksklusif",
-        "Galeri Video & Foto (Unlimited)",
-        "Buku Tamu Interaktif",
-        "Prioritas Support 24/7",
+        "Semua Fitur Paket Premium Termasuk",
+        "Unlimited Unggah Foto & Video Tanpa Batas",
+        "Unlimited Kuota Tamu Undangan",
+        "Kontrol Moderasi Host & Filter Layar Live",
+        "Kustomisasi Desain Layar Sesuai Tema Acara",
+        "Prioritas Support Dedicated 24/7 Saat Acara",
       ],
       popular: false,
     },
@@ -95,7 +93,7 @@ export const Pricing = () => {
                 <h3 className="mb-2 text-2xl font-space-bold text-foreground">
                   {plan.name}
                 </h3>
-                <p className="h-10 text-sm font-jakarta text-muted-foreground">
+                <p className="min-h-[2.5rem] text-sm font-jakarta text-muted-foreground leading-relaxed">
                   {plan.description}
                 </p>
                 <div className="flex items-baseline gap-1 mt-6">
