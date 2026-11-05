@@ -16,9 +16,9 @@ export const Pricing = () => {
       price: "150K",
       description: "Cocok untuk pernikahan intim dengan tamu terbatas.",
       features: [
-        "Desain Template Standar",
-        "Masa Aktif 3 Bulan",
-        "RSVP & Buku Tamu",
+        "Photo Only",
+        "4 Photo",
+        "Max 50 Guests",
         "Navigasi Lokasi",
         "Tanpa Custom Musik",
         "Max 100 Tamu",
@@ -27,13 +27,13 @@ export const Pricing = () => {
     },
     {
       name: "Premium",
-      price: "299K",
+      price: "250k",
       description:
         "Kustomisasi penuh dengan fitur interaktif untuk momen terbaik.",
       features: [
-        "Semua Template Premium",
-        "Masa Aktif 1 Tahun",
-        "Unimited Tamu VIP",
+        "All Basic Feature",
+        "Foto & Video",
+        "Max 200 Guests",
         "Custom Musik Latar",
         "Galeri Foto (Max 20)",
         "Hitung Mundur Acara",
@@ -43,7 +43,7 @@ export const Pricing = () => {
     },
     {
       name: "Exclusive",
-      price: "Mulai Dari 500K",
+      price: "500K",
       description:
         "Pelayanan spesial dengan kustomisasi desain sesuai tema Anda.",
       features: [
@@ -101,9 +101,6 @@ export const Pricing = () => {
                 <div className="flex items-baseline gap-1 mt-6">
                   <span className="text-4xl font-space-bold text-foreground">
                     Rp {plan.price}
-                  </span>
-                  <span className="font-jakarta text-muted-foreground">
-                    /acara
                   </span>
                 </div>
               </div>

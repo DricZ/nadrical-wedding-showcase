@@ -41,6 +41,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cp -rf /tmp/showcase-deploy/* /www/wwwroot/wedding-wp-core/
-            chown -R www:www /www/wwwroot/wedding-wp-core
+            sudo cp -rf /tmp/showcase-deploy/* /www/wwwroot/wedding-wp-core/
+            cd /tmp/showcase-deploy && for f in *; do
+              sudo chown -R www:www "/www/wwwroot/wedding-wp-core/$f" 2>/dev/null || true
+              sudo chmod -R 755 "/www/wwwroot/wedding-wp-core/$f" 2>/dev/null || true
+            done
             rm -rf /tmp/showcase-deploy
