@@ -10,7 +10,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const appName = settings?.app_name || "Nadrical.wedding";
   const defaultDesc =
     settings?.default_description ||
-    "Undangan pernikahan digital premium dengan desain elegan, fitur lengkap, dan pengalaman yang tak terlupakan untuk momen spesial Anda.";
+    "Premium digital wedding album & guest moments platform designed to capture unforgettable memories for your special day.";
 
   // Favicon logic - use specific favicon if exists, fallback to app_logo, then default favicon.ico
   const favicon =

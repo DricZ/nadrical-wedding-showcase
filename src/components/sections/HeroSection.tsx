@@ -36,7 +36,7 @@ export const HeroSection = () => {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           className="max-w-2xl mt-6 text-lg leading-relaxed md:text-xl text-muted-foreground font-jakarta"
         >
-          SImple QR code scanning and Let your guests share their moments and
+          Simple QR code scanning lets your guests share candid moments and
           heartfelt wishes in real-time
         </motion.p>
 
@@ -53,7 +53,7 @@ export const HeroSection = () => {
             href="/#pricing"
           />
           <MainButton
-            text="See How It's Works"
+            text="See How It Works"
             variant="outline"
             to="/#howto"
           />

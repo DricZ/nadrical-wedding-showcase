@@ -8,7 +8,7 @@ export interface TemplateFormData {
 }
 
 export const templateCategories = [
-  "Semua",
+  "All",
   "Premium",
   "Adat",
   "Floral",
@@ -697,16 +697,16 @@ export const templates: TemplateFormData[] = [
     demoUrl: "https://luxee.net/premium/event-invitation-02/"
   },
   {
-    id: "preview-dibawah-adalah-real-animasi-bukan-gif-atau-video-anda-dapat-menggunakan-file-grafis-animasi-ini-untuk-desain-terbaik-anda-dengan-luxee-tersedia-16-kategori-files-siap-pakai-untuk-website-undangan-anda-bertemakan-floral",
-    name: "Preview dibawah adalah real animasi, bukan gif atau video, anda dapat menggunakan file grafis animasi ini untuk desain terbaik anda dengan luxee. Tersedia 16 Kategori files siap pakai untuk website undangan Anda bertemakan floral.",
+    id: "animated-floral-suite",
+    name: "Animated Floral Suite (16 Ready-to-Use Categories)",
     category: "Floral",
     image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
     aspect: getNextAspect(),
     demoUrl: "https://luxee.net/template/supersmooth-luxee-webpreview/"
   },
   {
-    id: "preview-dibawah-adalah-real-animasi-bukan-gif-atau-video-anda-dapat-menggunakan-file-grafis-animasi-ini-untuk-desain-terbaik-anda-dengan-luxee-tersedia-11-kategori-files-siap-pakai-untuk-website-undangan-anda-bertemakan-floral",
-    name: "Preview dibawah adalah real animasi, bukan gif atau video, anda dapat menggunakan file grafis animasi ini untuk desain terbaik anda dengan luxee. Tersedia 11 Kategori files siap pakai untuk website undangan Anda bertemakan floral.",
+    id: "animated-floral-collection",
+    name: "Animated Floral Collection (11 Ready-to-Use Categories)",
     category: "Floral",
     image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
     aspect: getNextAspect(),

@@ -11,11 +11,11 @@ export const TemplateGallery = () => {
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl md:text-5xl font-space-bold text-foreground mb-6">
-            Katalog Tema
+            Theme Catalog
           </h2>
           <p className="font-jakarta text-lg text-muted-foreground">
-            Pilih dari berbagai koleksi tema premium kami yang dapat disesuaikan
-            dengan konsep pernikahan Anda.
+            Choose from our curated collection of premium themes designed to
+            complement your wedding aesthetic.
           </p>
         </div>
 
@@ -41,7 +41,7 @@ export const TemplateGallery = () => {
 
         <div className="mt-16 text-center">
           <MainButton
-            text="Lihat Semua Tema"
+            text="Explore All Themes"
             variant="outline"
             className="px-8"
             to="/themes"

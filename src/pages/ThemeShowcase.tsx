@@ -26,7 +26,7 @@ export const ThemeShowcase = () => {
   const appName = settings?.app_name || "Nadrical";
 
   // Category state
-  const [activeCategory, setActiveCategory] = useState("Semua");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [activeCategorySlug, setActiveCategorySlug] = useState<string | undefined>(undefined);
   const [apiCategories, setApiCategories] = useState<WeddingCategoryApi[]>([]);
 
@@ -78,7 +78,7 @@ export const ThemeShowcase = () => {
       } catch (err) {
         console.error("Failed to load templates:", err);
         if (reset) {
-          setError("Gagal memuat data dari server. Menampilkan data offline.");
+          setError("Failed to load data from server. Displaying offline data.");
           setUseFallback(true);
         }
       } finally {
@@ -134,7 +134,7 @@ export const ThemeShowcase = () => {
   const categories = useMemo(() => {
     if (apiCategories.length > 0) {
       return [
-        { name: "Semua", slug: undefined },
+        { name: "All", slug: undefined },
         ...apiCategories.map((c) => ({ name: c.name, slug: c.slug })),
       ];
     }
@@ -144,7 +144,7 @@ export const ThemeShowcase = () => {
   // Fallback: filter static data by category
   const displayTemplates = useMemo(() => {
     if (useFallback) {
-      if (activeCategory === "Semua") return staticTemplates;
+      if (activeCategory === "All") return staticTemplates;
       return staticTemplates.filter((t) => t.category === activeCategory);
     }
     return templates;
@@ -153,8 +153,8 @@ export const ThemeShowcase = () => {
   return (
     <>
       <SEO 
-        title="Katalog Tema" 
-        description={`Jelajahi berbagai pilihan desain tema premium untuk menyempurnakan cerita pernikahan Anda bersama ${appName}.`} 
+        title="Theme Catalog" 
+        description={`Explore our collection of premium themes to perfectly tell your wedding story with ${appName}.`} 
         url="/themes"
       />
       <div className="min-h-screen pt-32 pb-24 bg-background">
@@ -167,8 +167,8 @@ export const ThemeShowcase = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-4 text-4xl md:text-6xl font-space-bold text-foreground"
               >
-                Katalog{" "}
-                <span className="font-serif italic text-primary">Tema</span>
+                Theme{" "}
+                <span className="font-serif italic text-primary">Catalog</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -176,8 +176,7 @@ export const ThemeShowcase = () => {
                 transition={{ delay: 0.1 }}
                 className="text-lg font-jakarta text-muted-foreground"
               >
-                Jelajahi berbagai pilihan desain tema premium untuk
-                menyempurnakan cerita pernikahan Anda.
+                Explore our collection of premium themes to perfectly tell your wedding story.
               </motion.p>
             </div>
           </div>
@@ -248,7 +247,7 @@ export const ThemeShowcase = () => {
                   ) : (
                     <div className="py-24 text-center col-span-full">
                       <p className="font-jakarta text-muted-foreground">
-                        Tidak ada tema yang cocok dengan filter saat ini.
+                        No themes match the selected filter.
                       </p>
                     </div>
                   )}
@@ -263,7 +262,7 @@ export const ThemeShowcase = () => {
                   )}
                   {!hasMore && displayTemplates.length > 0 && (
                     <p className="text-sm text-muted-foreground font-jakarta">
-                      Semua tema telah ditampilkan.
+                      All themes have been displayed.
                     </p>
                   )}
                 </div>

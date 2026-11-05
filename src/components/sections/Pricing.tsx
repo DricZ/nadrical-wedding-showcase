@@ -35,7 +35,6 @@ export const Pricing = () => {
         "Includes All Basic Plan Features",
         "Photo & Video Uploads (Max 6 media items / guest)",
         "Up to 200 Invited Guests",
-        "Pin Featured Photos to Gallery Top",
         "Interactive Gallery with Real-Time Likes & Comments",
       ],
       popular: true,
@@ -49,6 +48,7 @@ export const Pricing = () => {
         "Includes All Premium Plan Features",
         "Unlimited Photo & Video Uploads",
         "Unlimited Invited Guests",
+        "Pin Couple Wedding Photos to Gallery (By Request)",
       ],
       popular: false,
     },
@@ -119,7 +119,7 @@ export const Pricing = () => {
                   text="Choose Plan"
                   variant={plan.popular ? "primary" : "outline"}
                   fullWidth
-                  href={`https://wa.me/${waNumber}?text=Hi ${appName}, I am interested in the ${plan.name} plan (Rp ${plan.price})`}
+                  href={`https://wa.me/${waNumber}?text=Hi ${appName}, I am interested in the ${plan.name} plan`}
                   external
                 />
               </div>

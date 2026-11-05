@@ -20,9 +20,9 @@ export const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Fitur", href: "/#features" },
-    // { name: "Katalog Tema", href: "/themes" },
-    { name: "Harga", href: "/#pricing" },
+    { name: "Features", href: "/#features" },
+    // { name: "Themes", href: "/themes" },
+    { name: "Pricing", href: "/#pricing" },
   ];
 
   return (
@@ -82,7 +82,7 @@ export const Navbar = () => {
           })}
           <div className="w-px h-4 mx-2 bg-border"></div>
           <MainButton
-            text="Mulai Buat Undangan"
+            text="Get Started"
             variant="primary"
             to="/#pricing"
           />
@@ -134,7 +134,7 @@ export const Navbar = () => {
             })}
             <div className="pt-4 border-t border-border/40">
               <MainButton
-                text="Mulai Buat Undangan"
+                text="Get Started"
                 fullWidth
                 to="/#pricing"
                 onClick={() => setIsMobileMenuOpen(false)}

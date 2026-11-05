@@ -53,7 +53,7 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-3 text-muted-foreground opacity-50 z-10">
                     <MonitorPlay size={32} />
-                    <span className="font-jakarta text-xs uppercase tracking-wider">Pratinjau Dihentikan</span>
+                    <span className="font-jakarta text-xs uppercase tracking-wider">Preview Paused</span>
                   </div>
                 )}
               </div>
@@ -85,7 +85,7 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
               {!iframeLoaded && (
                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-muted/50 backdrop-blur-sm">
                    <Loader2 className="animate-spin text-primary w-8 h-8" />
-                   <span className="font-jakarta text-sm text-muted-foreground animate-pulse">Memuat Preview Penuh...</span>
+                   <span className="font-jakarta text-sm text-muted-foreground animate-pulse">Loading Full Preview...</span>
                 </div>
               )}
               <iframe
@@ -99,7 +99,7 @@ export const TemplateCard = memo(function TemplateCard({ template, index, ...mot
             </div>
           ) : (
             <div className="flex items-center justify-center w-full h-full text-muted-foreground font-jakarta text-lg">
-              Pratinjau tidak tersedia
+              Preview not available
             </div>
           )}
         </DialogContent>
@@ -126,7 +126,7 @@ const IframePreview = memo(({ demoUrl }: { demoUrl: string }) => {
       {!loaded && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-muted/20 z-10">
           <Loader2 className="animate-spin text-primary" size={24} />
-          <span className="font-jakarta text-xs uppercase tracking-wider text-muted-foreground">Memuat Tampilan...</span>
+          <span className="font-jakarta text-xs uppercase tracking-wider text-muted-foreground">Loading Preview...</span>
         </div>
       )}
       <iframe 

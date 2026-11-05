@@ -57,8 +57,8 @@ export const FeatureHighlight = () => {
               Capturing Every Moment.
             </h2>
             <p className="text-lg leading-relaxed font-jakarta text-muted-foreground">
-              Kami merancang setiap fitur untuk memberikan kemudahan bagi Anda
-              dan pengalaman interaktif yang menyenangkan bagi para tamu.
+              We designed every feature to make capturing memories effortless for you
+              and delightfully interactive for your guests.
             </p>
           </div>
           <div className="flex justify-end md:w-1/2">

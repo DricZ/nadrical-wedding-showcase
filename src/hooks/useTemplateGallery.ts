@@ -37,7 +37,7 @@ export function useTemplateGallery(limit: number = 6) {
       setUseFallback(false);
     } catch (err) {
       console.error("Failed to load templates for gallery:", err);
-      setError("Gagal memuat data dari server. Menampilkan katalog bawaan.");
+      setError("Failed to load data from server. Displaying default catalog.");
       setUseFallback(true);
       // Fallback to static templates
       setTemplates(staticTemplates.slice(0, limit));

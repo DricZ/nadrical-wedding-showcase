@@ -26,21 +26,19 @@ export const Footer = () => {
               )}
             </h2>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground font-jakarta">
-              Undangan pernikahan digital premium dengan desain elegan, fitur
-              lengkap, dan pengalaman yang tak terlupakan untuk momen spesial
-              Anda.
+              Premium digital wedding album & guest moments platform designed to capture unforgettable memories for your special day.
             </p>
           </div>
 
           <div>
-            <h3 className="mb-4 font-space-medium text-foreground">Layanan</h3>
+            <h3 className="mb-4 font-space-medium text-foreground">Services</h3>
             <ul className="flex flex-col gap-2">
               <li>
                 <Link
                   to="/"
                   className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
-                  Undangan Website
+                  Wedding Website
                 </Link>
               </li>
               <li>
@@ -48,7 +46,7 @@ export const Footer = () => {
                   to="/themes"
                   className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
-                  Katalog Tema
+                  Theme Catalog
                 </Link>
               </li>
               <li>
@@ -56,14 +54,14 @@ export const Footer = () => {
                   to="/#pricing"
                   className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
-                  Harga Paket
+                  Pricing Plans
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="mb-4 font-space-medium text-foreground">Kontak</h3>
+            <h3 className="mb-4 font-space-medium text-foreground">Contact</h3>
             <ul className="flex flex-col gap-2">
               {settings?.company_phone && (
                 <li>

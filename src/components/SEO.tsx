@@ -20,7 +20,7 @@ export function SEO({ title, description, url, image, schema }: SEOProps) {
   const defaultTitle = `${appName} | Wedding Showcase`;
   const finalTitle = title ? `${title} | ${appName}` : defaultTitle;
   
-  const defaultDesc = `Jelajahi berbagai pilihan desain tema premium untuk menyempurnakan cerita pernikahan Anda bersama ${appName}.`;
+  const defaultDesc = `Explore premium theme designs to elevate your wedding celebration with ${appName}.`;
   const finalDesc = description || defaultDesc;
 
   return (
