@@ -17,10 +17,11 @@ export const Pricing = () => {
       description:
         "Ideal for intimate ceremonies, holy matrimony, or close family gatherings.",
       features: [
-        "Photo Uploads Only (Max 4 photos / guest, public or private)",
+        "Photo Uploads Only (Max 4 photos / guest)",
+        "Public or Private Upload Options",
         "Up to 50 Invited Guests",
         "Instant Table QR Code Access (No app required)",
-        "Digital Wedding Gallery (Instagram-style feed & stories)",
+        "Digital Wedding Gallery",
         "Interactive Gallery with Real-Time Likes",
       ],
       popular: false,
@@ -48,8 +49,6 @@ export const Pricing = () => {
         "Includes All Premium Plan Features",
         "Unlimited Photo & Video Uploads",
         "Unlimited Invited Guests",
-        "Host Moderation & Content Approval Controls",
-        "Priority 24/7 Dedicated Event Support",
       ],
       popular: false,
     },
