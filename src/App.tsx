@@ -4,17 +4,27 @@ import { Layout } from "./components/Layout";
 import { SettingsProvider } from "./contexts/SettingsContext";
 
 // Lazy loading pages for code splitting & faster FCP
-const LandingPage = lazy(() => import("./pages/LandingPage").then(module => ({ default: module.LandingPage })));
-const ThemeShowcase = lazy(() => import("./pages/ThemeShowcase").then(module => ({ default: module.ThemeShowcase })));
+const LandingPage = lazy(() =>
+  import("./pages/LandingPage").then((module) => ({
+    default: module.LandingPage,
+  })),
+);
+// const ThemeShowcase = lazy(() => import("./pages/ThemeShowcase").then(module => ({ default: module.ThemeShowcase })));
 
 function App() {
   return (
     <SettingsProvider>
       <Layout>
-        <Suspense fallback={<div className="min-h-screen w-full flex items-center justify-center bg-background text-foreground">Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center w-full min-h-screen bg-background text-foreground">
+              Loading...
+            </div>
+          }
+        >
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/themes" element={<ThemeShowcase />} />
+            {/* <Route path="/themes" element={<ThemeShowcase />} /> */}
           </Routes>
         </Suspense>
       </Layout>

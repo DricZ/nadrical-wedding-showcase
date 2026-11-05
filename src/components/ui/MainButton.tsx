@@ -48,13 +48,13 @@ export const MainButton: FC<MainButtonProps> = ({
         {text && <span>{text}</span>}
         {children}
         {icon && (
-          <span className="group-hover:translate-x-1 transition-transform duration-300">
+          <span className="transition-transform duration-300 group-hover:translate-x-1">
             {icon}
           </span>
         )}
       </span>
       {/* Optional subtle hover effect overlay */}
-      <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-white/10 group-hover:opacity-100" />
     </>
   );
 

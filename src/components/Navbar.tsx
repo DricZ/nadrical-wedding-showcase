@@ -21,7 +21,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: "Fitur", href: "/#features" },
-    { name: "Katalog Tema", href: "/themes" },
+    // { name: "Katalog Tema", href: "/themes" },
     { name: "Harga", href: "/#pricing" },
   ];
 
