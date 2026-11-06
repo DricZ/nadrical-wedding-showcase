@@ -2,7 +2,7 @@
 
 echo "🚀 Memulai Deployment React Showcase..."
 
-# 1. Tarik pembaruan terbaru dari repository (pastikan branch-nya benar, misal 'main' atau 'master')
+# 1. Tarik pembaruan terbaru dari repository
 echo "📦 Pulling dari Git..."
 git pull origin main
 
@@ -14,9 +14,10 @@ bun i
 echo "🏗️ Membangun project (Build)..."
 bun run build
 
-# 4. Copy hasil build ke folder public WordPress
-echo "📂 Menyalin file dist ke wedding-wp-core..."
-cp -r dist/* /www/wwwroot/wedding-wp-core/
+# 4. Copy hasil build ke folder public WordPress (termasuk .htaccess)
+# PENTING: JANGAN gunakan rm -rf /www/wwwroot/wedding-wp-core/* karena di dalamnya ada subfolder gallery-app
+echo "📂 Menyalin file dist ke wedding-wp-core (aman terhadap gallery-app)..."
+cp -a dist/. /www/wwwroot/wedding-wp-core/
 
 # 5. Fix ownership agar OpenLiteSpeed tidak Error 403
 echo "🔐 Memperbaiki hak akses file..."

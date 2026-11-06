@@ -28,7 +28,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "dist/*"
+          source: "dist/*,dist/.htaccess"
           target: "/tmp/showcase-deploy"
           strip_components: 1
           rm: true
@@ -41,7 +41,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo cp -rf /tmp/showcase-deploy/* /www/wwwroot/wedding-wp-core/
+            sudo cp -a /tmp/showcase-deploy/. /www/wwwroot/wedding-wp-core/
+            sudo chown -R www:www /www/wwwroot/wedding-wp-core/.htaccess 2>/dev/null || true
             cd /tmp/showcase-deploy && for f in *; do
               sudo chown -R www:www "/www/wwwroot/wedding-wp-core/$f" 2>/dev/null || true
               sudo chmod -R 755 "/www/wwwroot/wedding-wp-core/$f" 2>/dev/null || true
