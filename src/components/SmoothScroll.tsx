@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Lenis from "lenis";
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
-  const [lenis, setLenis] = useState<Lenis | null>(null);
-
   useEffect(() => {
     // Initialize Lenis
-    const lenisInstance = new Lenis({
+    const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
       orientation: "vertical",
@@ -16,18 +14,6 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
       touchMultiplier: 2,
     });
 
-    setLenis(lenisInstance);
-
-    return () => {
-      lenisInstance.destroy();
-      setLenis(null);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!lenis) return;
-
-    // Use requestAnimationFrame correctly
     let rafId: number;
     const raf = (time: number) => {
       lenis.raf(time);
@@ -38,8 +24,9 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
 
     return () => {
       cancelAnimationFrame(rafId);
+      lenis.destroy();
     };
-  }, [lenis]);
+  }, []);
 
   return <>{children}</>;
 };
