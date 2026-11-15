@@ -11,7 +11,7 @@ import {
   fetchWeddingPricings,
   type WeddingPricingApi,
 } from "../../services/api";
-import { RetroCameraPreview } from "./pricing/RetroCameraPreview";
+import { PricingLivePreview } from "./pricing/PricingLivePreview";
 import { PricingCalculatorCard } from "./pricing/PricingCalculatorCard";
 import { PricingBenefitsModal } from "./pricing/PricingBenefitsModal";
 
@@ -169,7 +169,7 @@ export const Pricing = () => {
       : [10, 15, 25];
   }, [currentTier.shots_options]);
 
-  // Derive effective shots without state-in-effect warning
+  // Derive effective shots
   const effectiveShots = validShotsOptions.includes(selectedShots)
     ? selectedShots
     : Number(currentTier.default_shots) || validShotsOptions[0] || 15;
@@ -187,31 +187,31 @@ export const Pricing = () => {
       className="py-24 border-t bg-card/30 dark:bg-zinc-950/40 border-border/70 relative overflow-hidden"
     >
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-[#ffbd59]/10 blur-[130px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-primary/10 blur-[140px] pointer-events-none rounded-full" />
 
       <div className="container px-6 mx-auto md:px-12 relative z-10">
-        {/* Promo Header Banner */}
-        <div className="max-w-3xl mx-auto mb-14 text-center">
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#ffbd59]/15 border border-[#ffbd59]/40 text-xs font-jakarta-bold text-amber-800 dark:text-[#ffbd59] mb-4 uppercase tracking-wider shadow-xs">
+        {/* Editorial Section Header */}
+        <div className="max-w-3xl mx-auto mb-16 text-center">
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary/15 border border-primary/30 text-xs font-jakarta-bold text-amber-800 dark:text-[#ffbd59] mb-4 uppercase tracking-wider shadow-xs">
             <Sparkles size={13} className="text-[#ffbd59]" />
-            <span>PROMO BULAN INI</span>
+            <span>TRANSPARAN & TANPA BIAYA TERSEMBUNYI</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-foreground tracking-tight leading-tight">
-            Pilih estimasi yang cocok untuk{" "}
+            Kalkulator Investasi{" "}
             <span className="italic font-normal text-primary">
-              acaramu?
+              Momen Bahagiamu
             </span>
           </h2>
           <p className="mt-4 text-sm sm:text-base font-jakarta text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Cukup sesuaikan perkiraan jumlah tamu undangan. Seluruh fasilitas kamera
-            disposable, QR code meja, dan galeri cloud otomatis siap digunakan.
+            Cukup sesuaikan estimasi tamu undangan dan jatah jepretan kamera
+            untuk melihat simulasi kenangan yang terkumpul dan total biaya secara instan.
           </p>
         </div>
 
-        {/* 2-Column Responsive Layout: Camera Preview (Left) & Single Pricing Card (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 max-w-5xl mx-auto items-center">
-          <RetroCameraPreview
+        {/* 2-Column Luxury Layout: Live Experience Simulator (Left) & Investment Configurator (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto items-stretch">
+          <PricingLivePreview
             guestCount={currentGuests}
             selectedShots={effectiveShots}
             storageDays={storageDays}
@@ -242,10 +242,10 @@ export const Pricing = () => {
         />
 
         {/* Trust Badges Bar */}
-        <div className="mt-16 pt-12 border-t border-border/60 max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-muted/30 border border-border/40">
-              <QrCode size={24} className="text-[#ffbd59] mb-2" />
+        <div className="mt-16 pt-12 border-t border-border/60 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
+              <QrCode size={24} className="text-primary mb-2.5" />
               <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
                 Tanpa Unduh Aplikasi
               </h5>
@@ -254,18 +254,18 @@ export const Pricing = () => {
               </p>
             </div>
 
-            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-muted/30 border border-border/40">
-              <ImageDown size={24} className="text-[#ffbd59] mb-2" />
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
+              <ImageDown size={24} className="text-primary mb-2.5" />
               <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
                 Resolusi Original HD
               </h5>
               <p className="text-[11px] text-muted-foreground mt-1">
-                Unduh album penuh dengan kualitas asli tanpa pecah.
+                Unduh album penuh dengan kualitas asli tanpa kompresi.
               </p>
             </div>
 
-            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-muted/30 border border-border/40">
-              <ShieldCheck size={24} className="text-[#ffbd59] mb-2" />
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
+              <ShieldCheck size={24} className="text-primary mb-2.5" />
               <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
                 Privasi Terlindungi
               </h5>
@@ -274,8 +274,8 @@ export const Pricing = () => {
               </p>
             </div>
 
-            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-muted/30 border border-border/40">
-              <Headphones size={24} className="text-[#ffbd59] mb-2" />
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
+              <Headphones size={24} className="text-primary mb-2.5" />
               <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
                 Dukungan Penuh Hari H
               </h5>
