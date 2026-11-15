@@ -13,7 +13,7 @@ interface PricingCalculatorCardProps {
   selectedShots: number;
   onSelectShots: (shots: number) => void;
   price: number;
-  normalPrice: number;
+  normalPrice?: number;
   perGuest: number;
   onOpenBenefits: () => void;
   waNumber: string;
@@ -27,7 +27,6 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   selectedShots,
   onSelectShots,
   price,
-  normalPrice,
   perGuest,
   onOpenBenefits,
   waNumber,
@@ -68,9 +67,6 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
     currentTier.shots_options && currentTier.shots_options.length > 0
       ? currentTier.shots_options.map(Number).filter((n) => !isNaN(n))
       : [10, 15, 25];
-
-  const discountPercent = currentTier.discount_percentage || 35;
-  const savings = Math.max(0, normalPrice - price);
 
   const handleCtaClick = useCallback(() => {
     confetti({
@@ -221,19 +217,14 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
 
         {/* Step 3: Transparent Investment Box with GPU Isolation */}
         <div className="p-5 rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border border-primary/20 shadow-inner">
-          <div className="flex items-center justify-between text-xs font-jakarta-medium text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <span>HARGA NORMAL</span>
-              <span className="line-through">
-                Rp {normalPrice.toLocaleString("id-ID")}
-              </span>
-            </div>
-            <span className="px-2 py-0.5 rounded-full bg-rose-500/15 border border-rose-500/20 text-rose-600 dark:text-rose-400 font-jakarta-bold text-[11px]">
-              Hemat {discountPercent}% (Rp {savings.toLocaleString("id-ID")})
+          <div className="flex items-center justify-between text-xs font-jakarta-bold uppercase tracking-wider text-muted-foreground mb-1">
+            <span>3. Total Investasi</span>
+            <span className="text-[11px] font-jakarta-medium text-emerald-600 dark:text-emerald-400">
+              Sekali Bayar · Tanpa Langganan
             </span>
           </div>
 
-          <div className="flex items-baseline gap-1 mt-2.5 text-foreground font-space-bold">
+          <div className="flex items-baseline gap-1 mt-2 text-foreground font-space-bold">
             <span className="text-2xl sm:text-3xl font-bold">Rp</span>
             <span className="text-4xl sm:text-5xl font-bold tracking-tight">
               <NumberFlow
