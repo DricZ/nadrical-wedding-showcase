@@ -94,7 +94,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   return (
     <div className="flex flex-col justify-between p-5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl lg:rounded-[2rem] border border-border/70 bg-card/85 dark:bg-zinc-900/80 backdrop-blur-xl shadow-2xl relative overflow-hidden transition-all duration-300">
       {/* Ambient background glow inside calculator */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none bg-primary/10 blur-3xl" />
 
       <div className="space-y-3 sm:space-y-3.5 lg:space-y-4">
         {/* Step 1: Guest Stops Slider with Direct Clickable Ticks */}
@@ -206,7 +206,9 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                       : "bg-secondary/50 text-foreground border-border/60 hover:border-primary/50"
                   }`}
                 >
-                  <span className="text-xs sm:text-sm font-space-bold">{shots} Foto</span>
+                  <span className="text-xs sm:text-sm font-space-bold">
+                    {shots} Foto
+                  </span>
                 </button>
               );
             })}
@@ -307,7 +309,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-xs sm:text-sm font-jakarta-bold text-foreground leading-tight">
+                <span className="text-xs leading-tight sm:text-sm font-jakarta-bold text-foreground">
                   Website Galeri Aktif Selamanya
                 </span>
                 <span className="text-[9px] sm:text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-primary/20 text-amber-800 dark:text-[#ffbd59]">
@@ -315,7 +317,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                 </span>
               </div>
               <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                Foto kenangan & ucapan tersimpan selamanya tanpa batas kedaluwarsa.
+                Foto kenangan & ucapan tersimpan selamanya tanpa batas
+                kedaluwarsa.
               </p>
             </div>
           </div>
@@ -344,18 +347,6 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           </span>
           <ArrowRight size={15} />
         </a>
-
-        {/* Trust bullet reassurance */}
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-2 text-[10px] sm:text-[11px] text-muted-foreground">
-          <span className="inline-flex items-center gap-1">
-            <CheckCircle2 size={11} className="text-emerald-500" />
-            Demo gratis sebelum bayar
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <CheckCircle2 size={11} className="text-emerald-500" />
-            Konsultasi desain QR meja
-          </span>
-        </div>
       </div>
     </div>
   );
