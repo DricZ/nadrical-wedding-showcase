@@ -16,12 +16,14 @@ interface PricingLivePreviewProps {
   guestCount: number;
   selectedShots: number;
   storageDays: number;
+  hasLifetimeAddon?: boolean;
 }
 
 export const PricingLivePreview = memo(function PricingLivePreview({
   guestCount,
   selectedShots,
   storageDays,
+  hasLifetimeAddon,
 }: PricingLivePreviewProps) {
   const totalPhotos = guestCount * selectedShots;
 
@@ -77,19 +79,25 @@ export const PricingLivePreview = memo(function PricingLivePreview({
               <span>Kapasitas</span>
             </div>
             <div className="font-space-bold text-xl sm:text-2xl text-foreground flex items-baseline">
-              <NumberFlow
-                value={guestCount}
-                locales="id-ID"
-                isolate
-                willChange
-                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-              />
-              {guestCount >= 500 && (
-                <span className="text-xs text-amber-500 ml-0.5">+</span>
+              {guestCount >= 500 ? (
+                <span className="text-amber-500 font-bold text-lg sm:text-xl">
+                  Unlimited
+                </span>
+              ) : (
+                <>
+                  <NumberFlow
+                    value={guestCount}
+                    locales="id-ID"
+                    isolate
+                    willChange
+                    transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                  />
+                  <span className="text-xs font-jakarta ml-0.5">Tamu</span>
+                </>
               )}
             </div>
             <span className="text-[10px] text-muted-foreground/80 mt-0.5">
-              Tamu ikut motret
+              {guestCount >= 500 ? "Kapasitas tanpa batas" : "Tamu ikut motret"}
             </span>
           </div>
 
@@ -100,17 +108,25 @@ export const PricingLivePreview = memo(function PricingLivePreview({
               <span>Simpan</span>
             </div>
             <div className="font-space-bold text-xl sm:text-2xl text-foreground flex items-baseline">
-              <NumberFlow
-                value={storageDays}
-                locales="id-ID"
-                isolate
-                willChange
-                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
-              />
-              <span className="text-xs font-jakarta ml-0.5">Hari</span>
+              {hasLifetimeAddon ? (
+                <span className="text-amber-500 font-bold text-base sm:text-lg">
+                  Selamanya ♾️
+                </span>
+              ) : (
+                <>
+                  <NumberFlow
+                    value={storageDays}
+                    locales="id-ID"
+                    isolate
+                    willChange
+                    transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                  />
+                  <span className="text-xs font-jakarta ml-0.5">Hari</span>
+                </>
+              )}
             </div>
             <span className="text-[10px] text-muted-foreground/80 mt-0.5">
-              Akses cloud aktif
+              {hasLifetimeAddon ? "Akses cloud lifetime" : "Akses cloud aktif"}
             </span>
           </div>
         </div>

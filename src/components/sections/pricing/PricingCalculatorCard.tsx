@@ -1,5 +1,5 @@
 import { memo, useCallback, useState, useEffect, startTransition } from "react";
-import { ArrowRight, HelpCircle, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, HelpCircle, CheckCircle2, Check } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import confetti from "canvas-confetti";
 import { Slider } from "@/components/ui/slider";
@@ -15,6 +15,8 @@ interface PricingCalculatorCardProps {
   price: number;
   normalPrice?: number;
   perGuest: number;
+  hasLifetimeAddon: boolean;
+  onToggleLifetimeAddon: (checked: boolean) => void;
   onOpenBenefits: () => void;
   waNumber: string;
 }
@@ -28,6 +30,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   onSelectShots,
   price,
   perGuest,
+  hasLifetimeAddon,
+  onToggleLifetimeAddon,
   onOpenBenefits,
   waNumber,
 }: PricingCalculatorCardProps) {
@@ -60,13 +64,12 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   );
 
   const currentGuests = guestStops[localIndex] || 50;
-  const isPopular = currentGuests === 50;
 
   // Shots options
   const shotsOptions =
     currentTier.shots_options && currentTier.shots_options.length > 0
       ? currentTier.shots_options.map(Number).filter((n) => !isNaN(n))
-      : [10, 15, 25];
+      : [10];
 
   const handleCtaClick = useCallback(() => {
     confetti({
@@ -77,10 +80,16 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
     });
   }, []);
 
+  const addonText = hasLifetimeAddon
+    ? " + *Addon Website Lifetime (Aktif Selamanya)*"
+    : "";
+  const guestLabel =
+    currentGuests >= 500 ? "Unlimited tamu" : `${currentGuests} tamu`;
+  const priceFormatted =
+    price === 0 ? "Gratis (Free Trial)" : `Rp ${price.toLocaleString("id-ID")}`;
+
   const waMessage = encodeURIComponent(
-    `Halo Lument! Saya tertarik memesan untuk estimasi *${currentGuests} tamu* dengan jatah *${selectedShots} foto/tamu*. Total investasi: *Rp ${price.toLocaleString(
-      "id-ID",
-    )}*. Boleh info ketersediaan tanggal dan langkah pemesanannya?`,
+    `Halo Lument! Saya tertarik memesan untuk estimasi *${guestLabel}* dengan jatah *${selectedShots} foto/tamu*${addonText}. Total investasi: *${priceFormatted}*. Boleh info ketersediaan tanggal dan langkah pemesanannya?`,
   );
   const waUrl = `https://wa.me/${waNumber}?text=${waMessage}`;
 
@@ -94,18 +103,22 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
               1. Perkiraan Jumlah Undangan
             </label>
             <div className="flex items-baseline gap-1 text-xl font-space-bold text-primary">
-              <NumberFlow
-                value={currentGuests}
-                locales="id-ID"
-                isolate
-                willChange
-                transformTiming={{
-                  duration: 200,
-                  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              />
+              {currentGuests >= 500 ? (
+                <span>Unlimited</span>
+              ) : (
+                <NumberFlow
+                  value={currentGuests}
+                  locales="id-ID"
+                  isolate
+                  willChange
+                  transformTiming={{
+                    duration: 200,
+                    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                />
+              )}
               <span className="text-xs font-jakarta-bold text-foreground">
-                {currentGuests >= 500 ? "+ Tamu" : " Tamu"}
+                Tamu
               </span>
             </div>
           </div>
@@ -122,13 +135,11 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
               className="py-2"
             />
 
-            {/* Mathematically Aligned Tick Stops with Direct Snapping */}
-            <div className="relative w-full h-8 mt-2 select-none">
+            {/* Mathematically Aligned Tick Stops with Direct Snapping (12px inset matching size-6 thumb radius) */}
+            <div className="relative mx-3 h-8 mt-2 select-none">
               {guestStops.map((stop, idx) => {
                 const isSelected = localIndex === idx;
                 const percent = (idx / (guestStops.length - 1)) * 100;
-                const isFirst = idx === 0;
-                const isLast = idx === guestStops.length - 1;
 
                 return (
                   <button
@@ -136,13 +147,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                     type="button"
                     onClick={() => handleTickClick(idx)}
                     style={{ left: `${percent}%` }}
-                    className={`absolute top-0 flex flex-col items-center transition-all duration-150 cursor-pointer ${
-                      isFirst
-                        ? "translate-x-0 items-start"
-                        : isLast
-                          ? "-translate-x-full items-end"
-                          : "-translate-x-1/2 items-center"
-                    }`}
+                    className="absolute top-0 flex flex-col items-center -translate-x-1/2 transition-all duration-150 cursor-pointer"
                   >
                     {/* Small vertical tick indicator */}
                     <span
@@ -154,14 +159,13 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                     />
                     {/* Value Badge */}
                     <span
-                      className={`text-[11px] font-space-bold px-1.5 py-0.5 rounded-md transition-all ${
+                      className={`text-[11px] font-space-bold px-1.5 py-0.5 rounded-md transition-all whitespace-nowrap ${
                         isSelected
-                          ? "bg-primary text-primary-foreground font-bold shadow-xs scale-110"
+                          ? "bg-primary text-primary-foreground font-bold shadow-xs scale-105"
                           : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      {stop >= 500 ? "500+" : stop}
-                      {stop === 50 ? " ⭐" : ""}
+                      {stop >= 500 ? "Unlimited" : stop}
                     </span>
                   </button>
                 );
@@ -181,7 +185,15 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div
+            className={`grid gap-2 sm:gap-3 ${
+              shotsOptions.length === 1
+                ? "grid-cols-1"
+                : shotsOptions.length === 2
+                  ? "grid-cols-2"
+                  : "grid-cols-3"
+            }`}
+          >
             {shotsOptions.map((shots) => {
               const isSelected = selectedShots === shots;
               return (
@@ -212,31 +224,47 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           </div>
 
           <div className="flex items-baseline gap-1 mt-2 text-foreground font-space-bold">
-            <span className="text-2xl font-bold sm:text-3xl">Rp</span>
-            <span className="text-4xl font-bold tracking-tight sm:text-5xl">
-              <NumberFlow
-                value={price}
-                locales="id-ID"
-                isolate
-                willChange
-                transformTiming={{
-                  duration: 200,
-                  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-                }}
-              />
-            </span>
-            <span className="ml-1 text-xs font-jakarta-normal text-muted-foreground">
-              / seluruh acara
-            </span>
+            {price === 0 ? (
+              <span className="text-3xl font-bold sm:text-4xl text-emerald-600 dark:text-emerald-400">
+                GRATIS
+              </span>
+            ) : (
+              <>
+                <span className="text-2xl font-bold sm:text-3xl">Rp</span>
+                <span className="text-4xl font-bold tracking-tight sm:text-5xl">
+                  <NumberFlow
+                    value={price}
+                    locales="id-ID"
+                    isolate
+                    willChange
+                    transformTiming={{
+                      duration: 200,
+                      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
+                  />
+                </span>
+                <span className="ml-1 text-xs font-jakarta-normal text-muted-foreground">
+                  / seluruh acara
+                </span>
+              </>
+            )}
           </div>
 
           <div className="flex items-center justify-between pt-3 mt-3 border-t border-primary/10">
             <span className="text-xs font-jakarta-medium text-muted-foreground">
-              Hanya{" "}
-              <strong className="text-foreground">
-                Rp {perGuest.toLocaleString("id-ID")}
-              </strong>{" "}
-              / tamu
+              {price === 0 ? (
+                <strong className="text-emerald-600 dark:text-emerald-400">
+                  100% Bebas Biaya
+                </strong>
+              ) : (
+                <>
+                  Hanya{" "}
+                  <strong className="text-foreground">
+                    Rp {perGuest.toLocaleString("id-ID")}
+                  </strong>{" "}
+                  / tamu
+                </>
+              )}
             </span>
 
             <button
@@ -247,6 +275,56 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
               <HelpCircle size={13} />
               <span>Rincian Benefit Lengkap</span>
             </button>
+          </div>
+        </div>
+
+        {/* Step 3.5: Lifetime Website Addon Option (Placed in the gap between investment box and CTA) */}
+        <div
+          onClick={() => onToggleLifetimeAddon(!hasLifetimeAddon)}
+          role="checkbox"
+          aria-checked={hasLifetimeAddon}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
+              onToggleLifetimeAddon(!hasLifetimeAddon);
+            }
+          }}
+          className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer select-none flex items-center justify-between gap-3 ${
+            hasLifetimeAddon
+              ? "bg-amber-500/10 dark:bg-amber-400/10 border-primary shadow-sm ring-1 ring-primary/40"
+              : "bg-secondary/40 border-border/70 hover:border-primary/40 hover:bg-secondary/60"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors shrink-0 ${
+                hasLifetimeAddon
+                  ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                  : "border-2 border-muted-foreground/40 bg-background"
+              }`}
+            >
+              {hasLifetimeAddon && <Check size={13} strokeWidth={3} />}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs sm:text-sm font-jakarta-bold text-foreground">
+                  Website Galeri Aktif Selamanya
+                </span>
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-primary/20 text-amber-800 dark:text-[#ffbd59]">
+                  LIFETIME
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                Foto kenangan & ucapan tersimpan selamanya tanpa batas kedaluwarsa.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-right shrink-0">
+            <span className="text-xs sm:text-sm font-space-bold text-primary">
+              +Rp 50.000
+            </span>
           </div>
         </div>
       </div>
@@ -260,7 +338,11 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           onClick={handleCtaClick}
           className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-gradient-to-r from-[#ffbd59] via-amber-500 to-[#f59e0b] text-zinc-950 font-jakarta-bold text-sm tracking-wide shadow-lg shadow-amber-500/20 transition-all duration-200 hover:opacity-95 hover:scale-[1.01] active:scale-[0.98] cursor-pointer"
         >
-          <span>Reservasi Tanggal Acara Sekarang</span>
+          <span>
+            {price === 0
+              ? "Coba Demo Gratis Sekarang"
+              : "Reservasi Tanggal Acara Sekarang"}
+          </span>
           <ArrowRight size={17} />
         </a>
 

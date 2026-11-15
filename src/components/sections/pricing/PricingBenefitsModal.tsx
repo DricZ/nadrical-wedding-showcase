@@ -8,6 +8,7 @@ interface PricingBenefitsModalProps {
   guestCount: number;
   storageDays: number;
   shotsPerGuest: number;
+  hasLifetimeAddon?: boolean;
 }
 
 export const PricingBenefitsModal = memo(function PricingBenefitsModal({
@@ -16,6 +17,7 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
   guestCount,
   storageDays,
   shotsPerGuest,
+  hasLifetimeAddon,
 }: PricingBenefitsModalProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -30,8 +32,10 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
 
   // Hardcoded comprehensive benefits
   const allBenefits = [
-    `Galeri aktif tersimpan aman selama ${storageDays || 7} hari setelah acara`,
-    `Akses kamera live hingga ${guestCount >= 500 ? "500+" : guestCount} tamu secara bersamaan`,
+    hasLifetimeAddon
+      ? "Galeri aktif tersimpan selamanya (Lifetime) tanpa batas waktu kedaluwarsa"
+      : `Galeri aktif tersimpan aman selama ${storageDays || 7} hari setelah acara`,
+    `Akses kamera live hingga ${guestCount >= 500 ? "Unlimited" : guestCount} tamu secara bersamaan`,
     `Jatah jepretan ${shotsPerGuest} foto per tamu dengan filter disposable vintage`,
     "Download satu album penuh foto resolusi original asli tanpa kompresi",
     "Scan QR Code meja langsung di HP tamu tanpa perlu install aplikasi apapun",
@@ -73,7 +77,7 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
                     Semua Keuntungan Termasuk
                   </h3>
                   <p className="text-xs font-jakarta text-muted-foreground">
-                    Estimasi untuk {guestCount >= 500 ? "500+" : guestCount} Tamu Undangan
+                    Estimasi untuk {guestCount >= 500 ? "Unlimited" : guestCount} Tamu Undangan
                   </p>
                 </div>
               </div>

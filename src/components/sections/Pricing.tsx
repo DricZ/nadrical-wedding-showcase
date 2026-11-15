@@ -15,108 +15,84 @@ import { PricingLivePreview } from "./pricing/PricingLivePreview";
 import { PricingCalculatorCard } from "./pricing/PricingCalculatorCard";
 import { PricingBenefitsModal } from "./pricing/PricingBenefitsModal";
 
-const GUEST_STOPS = [10, 25, 50, 100, 150, 200, 300, 500];
+const GUEST_STOPS = [10, 50, 100, 150, 200, 500];
 
 const DEFAULT_TIERS: WeddingPricingApi[] = [
   {
     id: 1,
     guest_count: 10,
-    price_idr: 79000,
-    original_price_idr: 120000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
+    price_idr: 0,
+    original_price_idr: 0,
+    discount_percentage: 0,
+    shots_options: [10],
+    default_shots: 10,
     storage_days: 7,
     is_active: true,
     sort_order: 1,
   },
   {
     id: 2,
-    guest_count: 25,
-    price_idr: 89000,
-    original_price_idr: 140000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
+    guest_count: 50,
+    badge: "PALING BANYAK DIPILIH ⚡",
+    is_popular: true,
+    price_idr: 100000,
+    original_price_idr: 170000,
+    discount_percentage: 41,
+    shots_options: [10],
+    default_shots: 10,
     storage_days: 7,
     is_active: true,
     sort_order: 2,
   },
   {
     id: 3,
-    guest_count: 50,
-    badge: "PALING BANYAK DIPILIH ⚡",
-    is_popular: true,
-    price_idr: 109000,
-    original_price_idr: 170000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
-    storage_days: 7,
+    guest_count: 100,
+    price_idr: 200000,
+    original_price_idr: 300000,
+    discount_percentage: 33,
+    shots_options: [10, 20],
+    default_shots: 10,
+    storage_days: 30,
     is_active: true,
     sort_order: 3,
   },
   {
     id: 4,
-    guest_count: 100,
-    price_idr: 169000,
-    original_price_idr: 260000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
-    storage_days: 7,
+    guest_count: 150,
+    price_idr: 270000,
+    original_price_idr: 449000,
+    discount_percentage: 40,
+    shots_options: [10, 20, 30],
+    default_shots: 10,
+    storage_days: 30,
     is_active: true,
     sort_order: 4,
   },
   {
     id: 5,
-    guest_count: 150,
-    price_idr: 219000,
-    original_price_idr: 340000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
-    storage_days: 7,
+    guest_count: 200,
+    price_idr: 350000,
+    original_price_idr: 599000,
+    discount_percentage: 42,
+    shots_options: [10, 20, 30],
+    default_shots: 10,
+    storage_days: 30,
     is_active: true,
     sort_order: 5,
   },
   {
     id: 6,
-    guest_count: 200,
-    price_idr: 269000,
-    original_price_idr: 420000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
-    storage_days: 7,
-    is_active: true,
-    sort_order: 6,
-  },
-  {
-    id: 7,
-    guest_count: 300,
-    price_idr: 349000,
-    original_price_idr: 540000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
-    storage_days: 7,
-    is_active: true,
-    sort_order: 7,
-  },
-  {
-    id: 8,
     guest_count: 500,
     badge: "KAPASITAS MAKSIMAL ✨",
     is_popular: false,
-    price_idr: 499000,
-    original_price_idr: 770000,
-    discount_percentage: 35,
-    shots_options: [10, 15, 25],
-    default_shots: 15,
-    storage_days: 14,
+    price_idr: 820000,
+    original_price_idr: 1020000,
+    discount_percentage: 20,
+    shots_options: [10, 20, 30],
+    default_shots: 10,
+    storage_days: 30,
     is_active: true,
-    sort_order: 8,
+    sort_order: 6,
   },
 ];
 
@@ -127,9 +103,12 @@ export const Pricing = () => {
     : "6289514930800";
 
   const [tiers, setTiers] = useState<WeddingPricingApi[]>(DEFAULT_TIERS);
-  const [selectedStopIndex, setSelectedStopIndex] = useState<number>(2); // Default 50 tamu
-  const [selectedShots, setSelectedShots] = useState<number>(15);
+  const [selectedStopIndex, setSelectedStopIndex] = useState<number>(1); // Default 50 tamu
+  const [selectedShots, setSelectedShots] = useState<number>(10);
+  const [hasLifetimeAddon, setHasLifetimeAddon] = useState<boolean>(false);
   const [isBenefitsOpen, setIsBenefitsOpen] = useState<boolean>(false);
+
+  const LIFETIME_ADDON_PRICE = 50000;
 
   // Fetch live pricing tiers from nadrical-system API
   useEffect(() => {
@@ -159,26 +138,28 @@ export const Pricing = () => {
     const byIndex = tiers[selectedStopIndex];
     if (byIndex) return byIndex;
 
-    return DEFAULT_TIERS[selectedStopIndex] || DEFAULT_TIERS[2];
+    return DEFAULT_TIERS[selectedStopIndex] || DEFAULT_TIERS[1];
   }, [tiers, currentGuests, selectedStopIndex]);
 
   // Available shots options for current tier
   const validShotsOptions = useMemo(() => {
     return currentTier.shots_options && currentTier.shots_options.length > 0
       ? currentTier.shots_options.map(Number).filter((n) => !isNaN(n))
-      : [10, 15, 25];
+      : [10];
   }, [currentTier.shots_options]);
 
   // Derive effective shots
   const effectiveShots = validShotsOptions.includes(selectedShots)
     ? selectedShots
-    : Number(currentTier.default_shots) || validShotsOptions[0] || 15;
+    : Number(currentTier.default_shots) || validShotsOptions[0] || 10;
 
-  const price = Number(currentTier.price_idr) || 109000;
-  const normalPrice =
-    Number(currentTier.original_price_idr) ||
-    Math.round(price / (1 - (currentTier.discount_percentage || 35) / 100));
-  const perGuest = Math.round(price / currentGuests);
+  const basePrice = Number(currentTier.price_idr) || 0;
+  const baseNormalPrice = Number(currentTier.original_price_idr) || 0;
+  const price = hasLifetimeAddon ? basePrice + LIFETIME_ADDON_PRICE : basePrice;
+  const normalPrice = hasLifetimeAddon
+    ? (baseNormalPrice > 0 ? baseNormalPrice + LIFETIME_ADDON_PRICE : LIFETIME_ADDON_PRICE)
+    : baseNormalPrice;
+  const perGuest = currentGuests > 0 ? Math.round(price / currentGuests) : 0;
   const storageDays = currentTier.storage_days || 7;
 
   return (
@@ -215,6 +196,7 @@ export const Pricing = () => {
             guestCount={currentGuests}
             selectedShots={effectiveShots}
             storageDays={storageDays}
+            hasLifetimeAddon={hasLifetimeAddon}
           />
 
           <PricingCalculatorCard
@@ -227,6 +209,8 @@ export const Pricing = () => {
             price={price}
             normalPrice={normalPrice}
             perGuest={perGuest}
+            hasLifetimeAddon={hasLifetimeAddon}
+            onToggleLifetimeAddon={setHasLifetimeAddon}
             onOpenBenefits={() => setIsBenefitsOpen(true)}
             waNumber={waNumber}
           />
@@ -239,6 +223,7 @@ export const Pricing = () => {
           guestCount={currentGuests}
           storageDays={storageDays}
           shotsPerGuest={effectiveShots}
+          hasLifetimeAddon={hasLifetimeAddon}
         />
 
         {/* Trust Badges Bar */}
