@@ -89,9 +89,10 @@ export const PricingCard = memo(function PricingCard({
           Paket {pkg.name}
         </h4>
         <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 leading-relaxed">
-          {isHeirloom
-            ? "Pilihan terlengkap untuk pesta pernikahan megah dengan kapasitas foto & masa aktif ekstra."
-            : "Pilihan favorit untuk mengabadikan momen intim & interaktif bersama para tamu terdekat."}
+          {pkg.description ||
+            (isHeirloom
+              ? "Pilihan terlengkap untuk pesta pernikahan megah dengan kapasitas foto & masa aktif ekstra."
+              : "Pilihan favorit untuk mengabadikan momen intim & interaktif bersama para tamu terdekat.")}
         </p>
       </div>
 

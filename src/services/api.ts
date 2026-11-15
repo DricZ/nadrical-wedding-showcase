@@ -66,11 +66,12 @@ export interface WeddingPricingApi {
   name: string;
   slug: string;
   badge?: string | null;
+  description?: string | null;
   is_popular: boolean;
   original_price_idr: number | string;
   discount_percentage?: number | null;
   price_idr: number | string;
-  price_usd?: number | string | null;
+  min_price_idr?: number | string | null;
   guest_count: number;
   guest_slider_stops?: (number | string)[] | null;
   shots_options?: (number | string)[] | null;
