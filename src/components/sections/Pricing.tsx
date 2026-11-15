@@ -1,11 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import {
-  Sparkles,
-  ShieldCheck,
-  QrCode,
-  ImageDown,
-  Headphones,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
 import {
   fetchWeddingPricings,
@@ -157,7 +151,9 @@ export const Pricing = () => {
   const baseNormalPrice = Number(currentTier.original_price_idr) || 0;
   const price = hasLifetimeAddon ? basePrice + LIFETIME_ADDON_PRICE : basePrice;
   const normalPrice = hasLifetimeAddon
-    ? (baseNormalPrice > 0 ? baseNormalPrice + LIFETIME_ADDON_PRICE : LIFETIME_ADDON_PRICE)
+    ? baseNormalPrice > 0
+      ? baseNormalPrice + LIFETIME_ADDON_PRICE
+      : LIFETIME_ADDON_PRICE
     : baseNormalPrice;
   const perGuest = currentGuests > 0 ? Math.round(price / currentGuests) : 0;
   const storageDays = currentTier.storage_days || 7;
@@ -165,33 +161,33 @@ export const Pricing = () => {
   return (
     <section
       id="pricing"
-      className="py-24 border-t bg-card/30 dark:bg-zinc-950/40 border-border/70 relative overflow-hidden"
+      className="relative flex flex-col justify-center border-t bg-card/30 dark:bg-zinc-950/40 border-border/70 overflow-hidden min-h-screen lg:h-[100dvh] lg:max-h-[100dvh] py-16 sm:py-20 lg:py-0"
     >
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-primary/10 blur-[140px] pointer-events-none rounded-full" />
 
-      <div className="container px-6 mx-auto md:px-12 relative z-10">
-        {/* Editorial Section Header */}
-        <div className="max-w-3xl mx-auto mb-16 text-center">
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary/15 border border-primary/30 text-xs font-jakarta-bold text-amber-800 dark:text-[#ffbd59] mb-4 uppercase tracking-wider shadow-xs">
-            <Sparkles size={13} className="text-[#ffbd59]" />
-            <span>TRANSPARAN & TANPA BIAYA TERSEMBUNYI</span>
+      <div className="container relative z-10 flex flex-col justify-center w-full px-4 mx-auto sm:px-6 md:px-12 lg:pt-16 lg:pb-4">
+        {/* Compact Editorial Section Header */}
+        <div className="max-w-2xl mx-auto mb-3 text-center sm:mb-4 lg:mb-5 shrink-0">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-[10px] sm:text-xs font-jakarta-bold text-amber-800 dark:text-[#ffbd59] mb-1.5 uppercase tracking-wider shadow-xs">
+            <Sparkles size={11} className="text-[#ffbd59]" />
+            <span>CLEAN PRICING</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-foreground tracking-tight leading-tight">
-            Kalkulator Investasi{" "}
+          <h2 className="font-serif text-2xl leading-tight tracking-tight sm:text-3xl lg:text-3xl text-foreground">
+            Plan Your{" "}
             <span className="italic font-normal text-primary">
-              Momen Bahagiamu
+              Wedding Album
             </span>
           </h2>
-          <p className="mt-4 text-sm sm:text-base font-jakarta text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Cukup sesuaikan estimasi tamu undangan dan jatah jepretan kamera
-            untuk melihat simulasi kenangan yang terkumpul dan total biaya secara instan.
+          <p className="hidden max-w-xl mx-auto mt-1 text-xs leading-snug sm:text-sm font-jakarta text-muted-foreground sm:block">
+            Slide to pick your guest count and photos per guest to see how many
+            memories you will get and the total cost
           </p>
         </div>
 
         {/* 2-Column Luxury Layout: Live Experience Simulator (Left) & Investment Configurator (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto items-stretch">
+        <div className="grid items-stretch w-full max-w-5xl grid-cols-1 gap-4 mx-auto lg:grid-cols-2 sm:gap-6 lg:gap-6 xl:gap-8 xl:max-w-6xl">
           <PricingLivePreview
             guestCount={currentGuests}
             selectedShots={effectiveShots}
@@ -225,51 +221,6 @@ export const Pricing = () => {
           shotsPerGuest={effectiveShots}
           hasLifetimeAddon={hasLifetimeAddon}
         />
-
-        {/* Trust Badges Bar */}
-        <div className="mt-16 pt-12 border-t border-border/60 max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
-              <QrCode size={24} className="text-primary mb-2.5" />
-              <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
-                Tanpa Unduh Aplikasi
-              </h5>
-              <p className="text-[11px] text-muted-foreground mt-1">
-                Scan langsung kamera HP bawaan, terbuka instan di browser.
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
-              <ImageDown size={24} className="text-primary mb-2.5" />
-              <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
-                Resolusi Original HD
-              </h5>
-              <p className="text-[11px] text-muted-foreground mt-1">
-                Unduh album penuh dengan kualitas asli tanpa kompresi.
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
-              <ShieldCheck size={24} className="text-primary mb-2.5" />
-              <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
-                Privasi Terlindungi
-              </h5>
-              <p className="text-[11px] text-muted-foreground mt-1">
-                Akses terenkripsi, hanya tamu undangan yang dapat melihat foto.
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-card/60 border border-border/50 shadow-xs">
-              <Headphones size={24} className="text-primary mb-2.5" />
-              <h5 className="text-xs sm:text-sm font-jakarta-bold text-foreground">
-                Dukungan Penuh Hari H
-              </h5>
-              <p className="text-[11px] text-muted-foreground mt-1">
-                Tim standby memastikan slideshow & upload berjalan lancar.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
