@@ -29,6 +29,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   selectedShots,
   onSelectShots,
   price,
+  normalPrice = 0,
   perGuest,
   hasLifetimeAddon,
   onToggleLifetimeAddon,
@@ -65,6 +66,13 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
 
   const currentGuests = guestStops[localIndex] || 50;
 
+  // Discount & Savings calculations
+  const hasDiscount = Boolean(normalPrice && normalPrice > price && price > 0);
+  const savings = hasDiscount ? normalPrice - price : 0;
+  const discountPercent = hasDiscount
+    ? Math.round(((normalPrice - price) / normalPrice) * 100)
+    : currentTier.discount_percentage || 0;
+
   // Shots options
   const shotsOptions =
     currentTier.shots_options && currentTier.shots_options.length > 0
@@ -85,7 +93,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
     `Hello Lument, I'd like to consult and reserve a live wedding gallery package:\n\n` +
       `• Estimated Guests: ${currentGuests >= 500 ? "Unlimited (500+)" : `${currentGuests} Guests`}\n` +
       `• Camera Allocation: ${selectedShots} Photos/Guest\n` +
-      `• Total Investment: Rp ${price.toLocaleString("id-ID")}\n` +
+      (hasDiscount ? `• Normal Price: Rp ${normalPrice.toLocaleString("id-ID")}\n` : "") +
+      `• Total Investment: Rp ${price.toLocaleString("id-ID")}${hasDiscount ? ` (Save ${discountPercent}%)` : ""}\n` +
       `• Lifetime Add-on: ${hasLifetimeAddon ? "Yes (+Rp 50,000)" : "No"}\n\n` +
       `Please let me know your date availability and next steps. Thank you!`,
   );
@@ -216,7 +225,27 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         <div className="p-3.5 sm:p-4 border shadow-inner rounded-xl sm:rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border-primary/20">
           <div className="flex items-center justify-between mb-0.5 text-[10px] sm:text-[11px] tracking-wider uppercase font-jakarta-bold text-muted-foreground">
             <span>Total Price</span>
+            {hasDiscount && (
+              <span className="px-2 py-0.5 rounded-full bg-rose-500/15 border border-rose-500/20 text-rose-600 dark:text-rose-400 font-jakarta-bold text-[10px] sm:text-[11px] tracking-normal">
+                Save {discountPercent}%
+              </span>
+            )}
           </div>
+
+          {/* Strikethrough Normal Price */}
+          {hasDiscount && (
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-[11px] font-jakarta-medium text-muted-foreground/80">
+                Normal Price:
+              </span>
+              <span className="text-xs sm:text-sm line-through decoration-rose-500/70 font-space-bold text-muted-foreground">
+                Rp {normalPrice.toLocaleString("id-ID")}
+              </span>
+              <span className="px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 font-jakarta-bold text-[10px]">
+                -{discountPercent}%
+              </span>
+            </div>
+          )}
 
           <div className="flex items-baseline gap-1 mt-1 text-foreground font-space-bold">
             {price === 0 ? (
@@ -226,7 +255,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
             ) : (
               <>
                 <span className="text-xl font-bold sm:text-2xl">Rp</span>
-                <span className="text-3xl font-bold tracking-tight sm:text-4xl">
+                <span className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">
                   <NumberFlow
                     value={price}
                     locales="id-ID"
@@ -258,6 +287,11 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                     Rp {perGuest.toLocaleString("id-ID")}
                   </strong>{" "}
                   / guest
+                  {savings > 0 && (
+                    <span className="hidden sm:inline text-emerald-600 dark:text-emerald-400 font-jakarta-semibold ml-1">
+                      (Save Rp {savings.toLocaleString("id-ID")})
+                    </span>
+                  )}
                 </>
               )}
             </span>

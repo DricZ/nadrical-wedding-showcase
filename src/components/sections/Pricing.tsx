@@ -148,7 +148,15 @@ export const Pricing = () => {
     : Number(currentTier.default_shots) || validShotsOptions[0] || 10;
 
   const basePrice = Number(currentTier.price_idr) || 0;
-  const baseNormalPrice = Number(currentTier.original_price_idr) || 0;
+  const rawNormalPrice = Number(currentTier.original_price_idr) || 0;
+  const tierDiscount = Number(currentTier.discount_percentage) || 0;
+  const baseNormalPrice =
+    rawNormalPrice > 0
+      ? rawNormalPrice
+      : tierDiscount > 0 && basePrice > 0
+        ? Math.round(basePrice / (1 - tierDiscount / 100))
+        : 0;
+
   const price = hasLifetimeAddon ? basePrice + LIFETIME_ADDON_PRICE : basePrice;
   const normalPrice = hasLifetimeAddon
     ? baseNormalPrice > 0
