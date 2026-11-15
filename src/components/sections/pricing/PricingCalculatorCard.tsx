@@ -316,7 +316,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                Foto kenangan & ucapan tersimpan selamanya tanpa batas kedaluwarsa.
+                Foto kenangan & ucapan tersimpan selamanya tanpa batas
+                kedaluwarsa.
               </p>
             </div>
           </div>
