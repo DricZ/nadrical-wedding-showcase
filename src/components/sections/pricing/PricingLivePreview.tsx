@@ -123,7 +123,7 @@ export const PricingLivePreview = memo(function PricingLivePreview({
               <div className="flex items-baseline text-lg font-space-bold sm:text-xl text-foreground">
                 {hasLifetimeAddon ? (
                   <span className="text-sm font-bold text-amber-500 sm:text-base">
-                    Forever ♾️
+                    Forever
                   </span>
                 ) : (
                   <>
@@ -204,8 +204,8 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                 Media Privacy
               </h5>
               <p className="text-[10px] sm:text-[11px] text-muted-foreground leading-snug">
-                Protected with an event token, keeping your memories private &
-                secure.
+                Guests can choose to share photos on the public feed or send
+                them privately just for the couple.
               </p>
             </div>
           </div>

@@ -1,9 +1,11 @@
 import { useSettings } from "../contexts/SettingsContext";
-import { Heart, Sparkles, MessageCircle, Globe, Mail, ArrowUp } from "lucide-react";
+import { Heart, Sparkles, MessageCircle, Globe, ArrowUp } from "lucide-react";
 
 export const Footer = () => {
   const { settings } = useSettings();
-  const rawPhone = settings?.company_phone ? settings.company_phone.replace(/\D/g, "") : "6289514930800";
+  const rawPhone = settings?.company_phone
+    ? settings.company_phone.replace(/\D/g, "")
+    : "6289514930800";
   const waUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent("Hello Nadrical Wedding, I'm interested in the live wedding gallery and guest photo sharing service.")}`;
   const companyWebsite = settings?.company_website || "nadrical.my.id";
 
@@ -16,14 +18,14 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="mt-auto border-t bg-card/60 backdrop-blur-md border-border/70 py-14 transition-colors">
+    <footer className="mt-auto transition-colors border-t bg-card/60 backdrop-blur-md border-border/70 py-14">
       <div className="container px-6 mx-auto md:px-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:grid-cols-5">
           {/* Brand & Description (2 cols on large) */}
-          <div className="md:col-span-2 lg:col-span-2 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 md:col-span-2 lg:col-span-2">
             <a
               href="/"
-              className="flex items-center gap-2 text-2xl font-space-bold tracking-tight text-primary transition-opacity hover:opacity-90"
+              className="flex items-center gap-2 text-2xl tracking-tight transition-opacity font-space-bold text-primary hover:opacity-90"
             >
               {settings?.wedding_logo || settings?.app_logo ? (
                 <img
@@ -36,16 +38,20 @@ export const Footer = () => {
                   <span className="font-space-bold text-foreground">
                     {settings?.app_name || "Nadrical"}
                   </span>
-                  <span className="font-serif italic text-primary">.wedding</span>
+                  <span className="font-serif italic text-primary">
+                    .wedding
+                  </span>
                 </div>
               )}
             </a>
 
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground font-jakarta">
-              Real-time wedding photo sharing & digital live guest gallery platform. Capture every candid smile, laughter, and heartfelt wish without requiring guests to install an app.
+              Real-time wedding photo sharing & digital live guest gallery
+              platform. Capture every candid smile, laughter, and heartfelt wish
+              without requiring guests to install an app.
             </p>
 
-            <div className="flex items-center gap-2 text-xs text-muted-foreground font-jakarta pt-1">
+            <div className="flex items-center gap-2 pt-1 text-xs text-muted-foreground font-jakarta">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary border border-border/60 text-foreground/80 font-medium">
                 <Sparkles size={13} className="text-primary" />
                 Live Guest Moments
@@ -59,14 +65,14 @@ export const Footer = () => {
 
           {/* Navigation Links */}
           <div className="flex flex-col gap-3">
-            <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
+            <h3 className="text-sm tracking-wide uppercase font-space-medium text-foreground">
               Navigation
             </h3>
             <ul className="flex flex-col gap-2.5">
               <li>
                 <a
                   href="/#howto"
-                  className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   How It Works
                 </a>
@@ -74,7 +80,7 @@ export const Footer = () => {
               <li>
                 <a
                   href="/#features"
-                  className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   Features
                 </a>
@@ -82,7 +88,7 @@ export const Footer = () => {
               <li>
                 <a
                   href="/#pricing"
-                  className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   Packages & Pricing
                 </a>
@@ -90,22 +96,9 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Highlights */}
-          <div className="flex flex-col gap-3">
-            <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
-              Highlights
-            </h3>
-            <ul className="flex flex-col gap-2.5 text-sm font-jakarta text-muted-foreground">
-              <li>Instant Table QR Scan</li>
-              <li>No App Download Needed</li>
-              <li>Full HD Album Download</li>
-              <li>Live Reception Slideshow</li>
-            </ul>
-          </div>
-
           {/* Contact & Support */}
           <div className="flex flex-col gap-3">
-            <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
+            <h3 className="text-sm tracking-wide uppercase font-space-medium text-foreground">
               Contact Us
             </h3>
             <ul className="flex flex-col gap-3">
@@ -114,9 +107,12 @@ export const Footer = () => {
                   href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                  className="inline-flex items-center gap-2 text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
-                  <MessageCircle size={15} className="text-emerald-500 shrink-0" />
+                  <MessageCircle
+                    size={15}
+                    className="text-emerald-500 shrink-0"
+                  />
                   <span>WhatsApp Consultation</span>
                 </a>
               </li>
@@ -125,19 +121,10 @@ export const Footer = () => {
                   href={`https://${companyWebsite.replace(/^https?:\/\//, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                  className="inline-flex items-center gap-2 text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
                   <Globe size={15} className="text-primary shrink-0" />
                   <span>{companyWebsite}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:halo@nadrical.my.id"
-                  className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Mail size={15} className="text-amber-500 shrink-0" />
-                  <span>halo@nadrical.my.id</span>
                 </a>
               </li>
             </ul>
@@ -145,8 +132,8 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar: Copyright & Back to Top */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 mt-12 border-t border-border/80">
-          <p className="text-xs font-jakarta text-muted-foreground text-center sm:text-left">
+        <div className="flex flex-col items-center justify-between gap-4 pt-8 mt-12 border-t sm:flex-row border-border/80">
+          <p className="text-xs text-center font-jakarta text-muted-foreground sm:text-left">
             &copy; {new Date().getFullYear()}{" "}
             <span className="font-medium text-foreground">
               {settings?.copyright || settings?.app_name || "Nadrical Wedding"}

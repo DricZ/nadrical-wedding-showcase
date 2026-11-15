@@ -161,12 +161,12 @@ export const Pricing = () => {
   return (
     <section
       id="pricing"
-      className="relative flex flex-col justify-center border-t bg-card/30 dark:bg-zinc-950/40 border-border/70 overflow-hidden min-h-screen lg:h-[100dvh] lg:max-h-[100dvh] py-16 sm:py-20 lg:py-0"
+      className="relative flex flex-col justify-center border-t bg-card/30 dark:bg-zinc-950/40 border-border/70 overflow-hidden min-h-screen py-20 sm:py-24 lg:py-28"
     >
       {/* Background Ambient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-primary/10 blur-[140px] pointer-events-none rounded-full" />
 
-      <div className="container relative z-10 flex flex-col justify-center w-full px-4 mx-auto sm:px-6 md:px-12 lg:pt-16 lg:pb-4">
+      <div className="container relative z-10 flex flex-col justify-center w-full px-4 mx-auto sm:px-6 md:px-12">
         {/* Compact Editorial Section Header */}
         <div className="max-w-2xl mx-auto mb-3 text-center sm:mb-4 lg:mb-5 shrink-0">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-[10px] sm:text-xs font-jakarta-bold text-amber-800 dark:text-[#ffbd59] mb-1.5 uppercase tracking-wider shadow-xs">

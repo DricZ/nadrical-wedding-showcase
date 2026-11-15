@@ -1,4 +1,5 @@
 import { memo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, Check, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,12 +23,25 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
   useEffect(() => {
     if (!isOpen) return;
 
+    // Freeze body scroll & pause Lenis smooth scroll while modal is visible
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    if (window.__lenis) {
+      window.__lenis.stop();
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      if (window.__lenis) {
+        window.__lenis.start();
+      }
+    };
   }, [isOpen, onClose]);
 
   // Hardcoded comprehensive benefits
@@ -46,17 +60,22 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
     "Dedicated technical assistance before and throughout your special day",
   ];
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
+        <div
+          data-lenis-prevent
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 overscroll-contain"
+        >
+          {/* Backdrop covering 100% of viewport including navbar */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/65 backdrop-blur-sm z-0"
           />
 
           {/* Modal Card */}
@@ -64,6 +83,7 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
             initial={{ scale: 0.95, opacity: 0, y: 15 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 15 }}
+            data-lenis-prevent
             className="relative w-full max-w-md rounded-[2rem] border border-border bg-card p-6 sm:p-7 shadow-2xl z-10 overflow-hidden"
           >
             {/* Header */}
@@ -92,8 +112,14 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
               </button>
             </div>
 
-            {/* Benefit List */}
-            <div className="py-4 space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+            {/* Benefit List with direct scrolling & mousewheel capability */}
+            <div
+              data-lenis-prevent
+              className="py-4 space-y-3 max-h-[50vh] sm:max-h-[55vh] overflow-y-auto overscroll-contain touch-pan-y pr-2 select-text"
+              style={{
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
               {allBenefits.map((benefit, idx) => (
                 <div key={idx} className="flex items-start gap-3">
                   <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ffbd59]/20 text-[#ffbd59] mt-0.5">
@@ -119,6 +145,7 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 });

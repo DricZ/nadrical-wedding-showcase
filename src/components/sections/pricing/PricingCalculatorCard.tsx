@@ -101,7 +101,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-[11px] sm:text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
-              1. Estimated Guest Count
+              Guest Count
             </label>
             <div className="flex items-baseline gap-1 text-lg sm:text-xl font-space-bold text-primary">
               {currentGuests >= 500 ? (
@@ -177,11 +177,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         <div className="pt-2 sm:pt-2.5 border-t border-border/60">
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-[11px] sm:text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
-              2. Camera Shots per Guest
+              Camera Shots per Guest
             </label>
-            <span className="text-[11px] sm:text-xs font-jakarta-semibold text-primary">
-              {selectedShots} Photos / Guest
-            </span>
           </div>
 
           <div
@@ -218,10 +215,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         {/* Step 3: Transparent Investment Box */}
         <div className="p-3.5 sm:p-4 border shadow-inner rounded-xl sm:rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border-primary/20">
           <div className="flex items-center justify-between mb-0.5 text-[10px] sm:text-[11px] tracking-wider uppercase font-jakarta-bold text-muted-foreground">
-            <span>3. Total Investment</span>
-            <span className="font-jakarta-medium text-emerald-600 dark:text-emerald-400">
-              One-Time Payment · No Subscription
-            </span>
+            <span>Total Price</span>
           </div>
 
           <div className="flex items-baseline gap-1 mt-1 text-foreground font-space-bold">
@@ -245,7 +239,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                   />
                 </span>
                 <span className="ml-1 text-[11px] sm:text-xs font-jakarta-normal text-muted-foreground">
-                  / whole event
+                  / event
                 </span>
               </>
             )}
@@ -312,12 +306,9 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                 <span className="text-xs leading-tight sm:text-sm font-jakarta-bold text-foreground">
                   Lifetime Gallery Access
                 </span>
-                <span className="text-[9px] sm:text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-primary/20 text-amber-800 dark:text-[#ffbd59]">
-                  LIFETIME
-                </span>
               </div>
               <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                Preserve candid photos, videos & guest wishes forever with no expiration.
+                Keep all your guest photos, videos, and wishes online forever.
               </p>
             </div>
           </div>
@@ -339,11 +330,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           onClick={handleCtaClick}
           className="flex items-center justify-center gap-2 w-full py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#ffbd59] via-amber-500 to-[#f59e0b] text-zinc-950 font-jakarta-bold text-xs sm:text-sm tracking-wide shadow-lg shadow-amber-500/20 transition-all duration-200 hover:opacity-95 hover:scale-[1.01] active:scale-[0.98] cursor-pointer"
         >
-          <span>
-            {price === 0
-              ? "Try Free Demo Now"
-              : "Reserve Event Date Now"}
-          </span>
+          <span>{price === 0 ? "Try Free Demo Now" : "Reserve Now"}</span>
           <ArrowRight size={15} />
         </a>
       </div>
