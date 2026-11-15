@@ -63,25 +63,26 @@ export const fetchWeddingTemplates = async (
 
 export interface WeddingPricingApi {
   id: number;
-  name: string;
-  slug: string;
+  guest_count: number;
+  price_idr: number | string;
+  original_price_idr?: number | string | null;
+  discount_percentage?: number | null;
+  shots_options?: (number | string)[] | null;
+  default_shots?: number | null;
+  storage_days?: number | null;
+  is_active?: boolean;
+  sort_order?: number;
+  // Optional / legacy fields
+  name?: string | null;
+  slug?: string | null;
   badge?: string | null;
   description?: string | null;
-  is_popular: boolean;
-  original_price_idr: number | string;
-  discount_percentage?: number | null;
-  price_idr: number | string;
+  is_popular?: boolean;
   min_price_idr?: number | string | null;
-  guest_count: number;
   guest_slider_stops?: (number | string)[] | null;
-  shots_options?: (number | string)[] | null;
-  default_shots: number;
-  storage_days: number;
   features?: string[] | null;
-  cta_text: string;
+  cta_text?: string | null;
   cta_url?: string | null;
-  is_active: boolean;
-  sort_order: number;
 }
 
 export const fetchWeddingPricings = async (): Promise<{ success: boolean; data: WeddingPricingApi[] }> => {

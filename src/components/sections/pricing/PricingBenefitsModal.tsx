@@ -1,18 +1,21 @@
 import { memo, useEffect } from "react";
 import { X, Check, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { WeddingPricingApi } from "../../../services/api";
 
 interface PricingBenefitsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  selectedPackage: WeddingPricingApi;
+  guestCount: number;
+  storageDays: number;
+  shotsPerGuest: number;
 }
 
 export const PricingBenefitsModal = memo(function PricingBenefitsModal({
   isOpen,
   onClose,
-  selectedPackage,
+  guestCount,
+  storageDays,
+  shotsPerGuest,
 }: PricingBenefitsModalProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -25,18 +28,19 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  const allBenefits = selectedPackage.features && selectedPackage.features.length > 0
-    ? selectedPackage.features
-    : [
-        `Galeri tersimpan aman selama ${selectedPackage.storage_days || 7} hari setelah acara`,
-        `Dapat diakses hingga ${selectedPackage.guest_count || 50} tamu secara bersamaan`,
-        `Jatah hingga ${selectedPackage.default_shots || 15} jepretan per-tamu`,
-        "Download satu album penuh foto & video resolusi asli (HD)",
-        "Scan QR Code meja tanpa perlu instal aplikasi apapun",
-        "Tamu dapat saling memberi like dan ucapan selamat secara live",
-        "Dukungan tampilan slideshow proyektor resepsi secara real-time",
-        "Privasi terjamin dengan token enkripsi unik untuk setiap meja/acara",
-      ];
+  // Hardcoded comprehensive benefits
+  const allBenefits = [
+    `Galeri aktif tersimpan aman selama ${storageDays || 7} hari setelah acara`,
+    `Akses kamera live hingga ${guestCount >= 500 ? "500+" : guestCount} tamu secara bersamaan`,
+    `Jatah jepretan ${shotsPerGuest} foto per tamu dengan filter disposable vintage`,
+    "Download satu album penuh foto resolusi original asli tanpa kompresi",
+    "Scan QR Code meja langsung di HP tamu tanpa perlu install aplikasi apapun",
+    "Tamu dapat saling memberi ucapan doa & likes secara real-time",
+    "Dukungan live slideshow foto para tamu di layar proyektor resepsi",
+    "Privasi terjamin dengan token enkripsi unik khusus acara pernikahan Anda",
+    "Panduan cetak nomor meja & template kartu QR siap pakai",
+    "Bantuan teknis responsif sebelum dan selama hari H acara",
+  ];
 
   return (
     <AnimatePresence>
@@ -60,16 +64,16 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-border">
-              <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#ffbd59]/20 text-[#ffbd59]">
-                  <Sparkles size={16} />
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#ffbd59]/20 text-[#ffbd59]">
+                  <Sparkles size={18} />
                 </div>
                 <div>
                   <h3 className="font-space-bold text-base text-foreground">
-                    Paket {selectedPackage.name}
+                    Semua Keuntungan Termasuk
                   </h3>
                   <p className="text-xs font-jakarta text-muted-foreground">
-                    Semua yang kamu dapatkan dalam paket ini
+                    Estimasi untuk {guestCount >= 500 ? "500+" : guestCount} Tamu Undangan
                   </p>
                 </div>
               </div>
@@ -103,9 +107,9 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full py-2.5 rounded-xl bg-secondary font-jakarta-bold text-xs text-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#ffbd59] to-[#f59e0b] font-jakarta-bold text-xs text-zinc-950 shadow-md transition-transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
-                Tutup
+                Mengerti, Tutup
               </button>
             </div>
           </motion.div>
@@ -114,4 +118,3 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
     </AnimatePresence>
   );
 });
-
