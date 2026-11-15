@@ -4,7 +4,7 @@ import { Heart, Sparkles, MessageCircle, Globe, Mail, ArrowUp } from "lucide-rea
 export const Footer = () => {
   const { settings } = useSettings();
   const rawPhone = settings?.company_phone ? settings.company_phone.replace(/\D/g, "") : "6289514930800";
-  const waUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent("Halo Nadrical Wedding, saya tertarik dengan layanan live gallery & photo sharing pernikahan.")}`;
+  const waUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent("Hello Nadrical Wedding, I'm interested in the live wedding gallery and guest photo sharing service.")}`;
   const companyWebsite = settings?.company_website || "nadrical.my.id";
 
   const scrollToTop = () => {
@@ -42,7 +42,7 @@ export const Footer = () => {
             </a>
 
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground font-jakarta">
-              Platform galeri foto pernikahan live & pengumpulan momen tamu via scan QR code instan. Abadikan setiap senyum, tawa, dan ucapan bahagia para tamu tanpa batas aplikasi.
+              Real-time wedding photo sharing & digital live guest gallery platform. Capture every candid smile, laughter, and heartfelt wish without requiring guests to install an app.
             </p>
 
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-jakarta pt-1">
@@ -52,7 +52,7 @@ export const Footer = () => {
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary border border-border/60 text-foreground/80 font-medium">
                 <Heart size={13} className="text-primary fill-primary" />
-                Dibuat untuk Hari Bahagiamu
+                Made for Your Special Day
               </span>
             </div>
           </div>
@@ -60,7 +60,7 @@ export const Footer = () => {
           {/* Navigation Links */}
           <div className="flex flex-col gap-3">
             <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
-              Navigasi
+              Navigation
             </h3>
             <ul className="flex flex-col gap-2.5">
               <li>
@@ -68,7 +68,7 @@ export const Footer = () => {
                   href="/#howto"
                   className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Cara Kerja
+                  How It Works
                 </a>
               </li>
               <li>
@@ -76,7 +76,7 @@ export const Footer = () => {
                   href="/#features"
                   className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Fitur Unggulan
+                  Features
                 </a>
               </li>
               <li>
@@ -84,29 +84,29 @@ export const Footer = () => {
                   href="/#pricing"
                   className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Pilihan Paket & Harga
+                  Packages & Pricing
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Keunggulan */}
+          {/* Highlights */}
           <div className="flex flex-col gap-3">
             <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
-              Keunggulan
+              Highlights
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm font-jakarta text-muted-foreground">
-              <li>Scan QR Meja Instan</li>
-              <li>Tanpa Instal Aplikasi</li>
-              <li>Download Album HD Full</li>
-              <li>Live Resepsi Slideshow</li>
+              <li>Instant Table QR Scan</li>
+              <li>No App Download Needed</li>
+              <li>Full HD Album Download</li>
+              <li>Live Reception Slideshow</li>
             </ul>
           </div>
 
           {/* Contact & Support */}
           <div className="flex flex-col gap-3">
             <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
-              Hubungi Kami
+              Contact Us
             </h3>
             <ul className="flex flex-col gap-3">
               <li>
@@ -117,7 +117,7 @@ export const Footer = () => {
                   className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
                   <MessageCircle size={15} className="text-emerald-500 shrink-0" />
-                  <span>WhatsApp Konsultasi</span>
+                  <span>WhatsApp Consultation</span>
                 </a>
               </li>
               <li>
@@ -158,9 +158,9 @@ export const Footer = () => {
             type="button"
             onClick={scrollToTop}
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border bg-secondary/80 text-xs font-jakarta text-foreground/80 hover:text-primary hover:border-primary/50 transition-all cursor-pointer shadow-xs active:scale-95"
-            title="Kembali ke atas"
+            title="Back to top"
           >
-            <span>Kembali ke Atas</span>
+            <span>Back to Top</span>
             <ArrowUp size={13} className="text-primary" />
           </button>
         </div>

@@ -27,7 +27,7 @@ const DEFAULT_TIERS: WeddingPricingApi[] = [
   {
     id: 2,
     guest_count: 50,
-    badge: "PALING BANYAK DIPILIH ⚡",
+    badge: "MOST POPULAR ⚡",
     is_popular: true,
     price_idr: 100000,
     original_price_idr: 170000,
@@ -77,7 +77,7 @@ const DEFAULT_TIERS: WeddingPricingApi[] = [
   {
     id: 6,
     guest_count: 500,
-    badge: "KAPASITAS MAKSIMAL ✨",
+    badge: "MAX CAPACITY ✨",
     is_popular: false,
     price_idr: 820000,
     original_price_idr: 1020000,
@@ -97,7 +97,7 @@ export const Pricing = () => {
     : "6289514930800";
 
   const [tiers, setTiers] = useState<WeddingPricingApi[]>(DEFAULT_TIERS);
-  const [selectedStopIndex, setSelectedStopIndex] = useState<number>(1); // Default 50 tamu
+  const [selectedStopIndex, setSelectedStopIndex] = useState<number>(1); // Default 50 guests
   const [selectedShots, setSelectedShots] = useState<number>(10);
   const [hasLifetimeAddon, setHasLifetimeAddon] = useState<boolean>(false);
   const [isBenefitsOpen, setIsBenefitsOpen] = useState<boolean>(false);

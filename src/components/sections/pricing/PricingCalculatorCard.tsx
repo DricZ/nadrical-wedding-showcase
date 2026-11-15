@@ -1,5 +1,5 @@
 import { memo, useCallback, useState, useEffect, startTransition } from "react";
-import { ArrowRight, HelpCircle, CheckCircle2, Check } from "lucide-react";
+import { ArrowRight, HelpCircle, Check } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import confetti from "canvas-confetti";
 import { Slider } from "@/components/ui/slider";
@@ -82,12 +82,12 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
 
   // WhatsApp Order URL Generation
   const waMessage = encodeURIComponent(
-    `Halo Lument, saya ingin konsultasi dan pesan paket galeri live pernikahan:\n\n` +
-      `• Estimasi Tamu: ${currentGuests >= 500 ? "Unlimited (500+)" : `${currentGuests} Tamu`}\n` +
-      `• Jatah Kamera: ${selectedShots} Foto/Tamu\n` +
-      `• Total Investasi: Rp ${price.toLocaleString("id-ID")}\n` +
-      `• Add-on Lifetime: ${hasLifetimeAddon ? "Ya (+Rp 50.000)" : "Tidak"}\n\n` +
-      `Mohon info ketersediaan tanggal acara dan tahapan selanjutnya. Terima kasih!`,
+    `Hello Lument, I'd like to consult and reserve a live wedding gallery package:\n\n` +
+      `• Estimated Guests: ${currentGuests >= 500 ? "Unlimited (500+)" : `${currentGuests} Guests`}\n` +
+      `• Camera Allocation: ${selectedShots} Photos/Guest\n` +
+      `• Total Investment: Rp ${price.toLocaleString("id-ID")}\n` +
+      `• Lifetime Add-on: ${hasLifetimeAddon ? "Yes (+Rp 50,000)" : "No"}\n\n` +
+      `Please let me know your date availability and next steps. Thank you!`,
   );
   const waUrl = `https://wa.me/${waNumber}?text=${waMessage}`;
 
@@ -101,7 +101,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-[11px] sm:text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
-              1. Perkiraan Jumlah Undangan
+              1. Estimated Guest Count
             </label>
             <div className="flex items-baseline gap-1 text-lg sm:text-xl font-space-bold text-primary">
               {currentGuests >= 500 ? (
@@ -119,7 +119,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                 />
               )}
               <span className="text-[11px] sm:text-xs font-jakarta-bold text-foreground">
-                Tamu
+                Guests
               </span>
             </div>
           </div>
@@ -132,7 +132,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
               max={guestStops.length - 1}
               min={0}
               step={1}
-              aria-label="Pilih Jumlah Tamu Undangan"
+              aria-label="Select Estimated Guest Count"
               className="py-1.5"
             />
 
@@ -173,14 +173,14 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           </div>
         </div>
 
-        {/* Step 2: Jatah Jepretan Per Tamu */}
+        {/* Step 2: Camera Shots Per Guest */}
         <div className="pt-2 sm:pt-2.5 border-t border-border/60">
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-[11px] sm:text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
-              2. Jatah Jepretan Kamera per Tamu
+              2. Camera Shots per Guest
             </label>
             <span className="text-[11px] sm:text-xs font-jakarta-semibold text-primary">
-              {selectedShots} Foto / Tamu
+              {selectedShots} Photos / Guest
             </span>
           </div>
 
@@ -207,7 +207,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                   }`}
                 >
                   <span className="text-xs sm:text-sm font-space-bold">
-                    {shots} Foto
+                    {shots} Photos
                   </span>
                 </button>
               );
@@ -218,16 +218,16 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         {/* Step 3: Transparent Investment Box */}
         <div className="p-3.5 sm:p-4 border shadow-inner rounded-xl sm:rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border-primary/20">
           <div className="flex items-center justify-between mb-0.5 text-[10px] sm:text-[11px] tracking-wider uppercase font-jakarta-bold text-muted-foreground">
-            <span>3. Total Investasi</span>
+            <span>3. Total Investment</span>
             <span className="font-jakarta-medium text-emerald-600 dark:text-emerald-400">
-              Sekali Bayar · Tanpa Langganan
+              One-Time Payment · No Subscription
             </span>
           </div>
 
           <div className="flex items-baseline gap-1 mt-1 text-foreground font-space-bold">
             {price === 0 ? (
               <span className="text-2xl font-bold sm:text-3xl text-emerald-600 dark:text-emerald-400">
-                GRATIS
+                FREE
               </span>
             ) : (
               <>
@@ -245,7 +245,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                   />
                 </span>
                 <span className="ml-1 text-[11px] sm:text-xs font-jakarta-normal text-muted-foreground">
-                  / seluruh acara
+                  / whole event
                 </span>
               </>
             )}
@@ -255,15 +255,15 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
             <span className="text-[11px] sm:text-xs font-jakarta-medium text-muted-foreground">
               {price === 0 ? (
                 <strong className="text-emerald-600 dark:text-emerald-400">
-                  100% Bebas Biaya
+                  100% Free Trial
                 </strong>
               ) : (
                 <>
-                  Hanya{" "}
+                  Only{" "}
                   <strong className="text-foreground">
                     Rp {perGuest.toLocaleString("id-ID")}
                   </strong>{" "}
-                  / tamu
+                  / guest
                 </>
               )}
             </span>
@@ -274,7 +274,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
               className="inline-flex items-center gap-1 text-[11px] sm:text-xs cursor-pointer font-jakarta-semibold text-primary hover:underline"
             >
               <HelpCircle size={12} />
-              <span>Rincian Benefit Lengkap</span>
+              <span>View Full Benefits</span>
             </button>
           </div>
         </div>
@@ -310,15 +310,14 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="text-xs leading-tight sm:text-sm font-jakarta-bold text-foreground">
-                  Website Galeri Aktif Selamanya
+                  Lifetime Gallery Access
                 </span>
                 <span className="text-[9px] sm:text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-primary/20 text-amber-800 dark:text-[#ffbd59]">
                   LIFETIME
                 </span>
               </div>
               <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                Foto kenangan & ucapan tersimpan selamanya tanpa batas
-                kedaluwarsa.
+                Preserve candid photos, videos & guest wishes forever with no expiration.
               </p>
             </div>
           </div>
@@ -342,8 +341,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         >
           <span>
             {price === 0
-              ? "Coba Demo Gratis Sekarang"
-              : "Reservasi Tanggal Acara Sekarang"}
+              ? "Try Free Demo Now"
+              : "Reserve Event Date Now"}
           </span>
           <ArrowRight size={15} />
         </a>

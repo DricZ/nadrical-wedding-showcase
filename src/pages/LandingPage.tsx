@@ -40,26 +40,26 @@ export const LandingPage = () => {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Bagaimana cara tamu mengunggah foto ke galeri pernikahan?",
+            "name": "How do guests upload photos to our wedding gallery?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Tamu cukup memindai (scan) QR Code yang tersedia di meja resepsi atau undangan. Tanpa perlu menginstal aplikasi, tamu langsung masuk ke halaman upload web untuk mengambil foto/video dan memberikan ucapan."
+              "text": "Guests simply scan the QR code placed on reception tables or invitations. Without installing any app, they instantly access the mobile web camera to take photos/videos and share heartfelt wishes."
             }
           },
           {
             "@type": "Question",
-            "name": "Apakah foto yang diunggah tamu tersimpan dalam resolusi asli?",
+            "name": "Are guest photos preserved in full original resolution?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Ya, seluruh foto dan video kenangan disimpan dengan aman dalam kualitas tinggi sehingga kedua mempelai dapat mengunduh seluruh dokumentasi asli setelah pesta usai."
+              "text": "Yes, all photos and videos are securely stored in uncompressed high resolution, allowing the couple to download the complete original archive after the celebration."
             }
           },
           {
             "@type": "Question",
-            "name": "Apakah tamu perlu login atau membuat akun terlebih dahulu?",
+            "name": "Do guests need an account or login to participate?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Tidak perlu. Tamu hanya cukup memasukkan nama mereka dan langsung dapat membagikan momen bahagia secara instan."
+              "text": "No app download or account creation is required. Guests simply enter their name and can instantly capture and share happy moments in real time."
             }
           }
         ]
@@ -71,7 +71,7 @@ export const LandingPage = () => {
     <>
       <SEO
         title="Collect More Photos & Wishes From Your Wedding Guests"
-        description="Platform galeri pernikahan live & pengumpulan momen tamu via scan QR code instan. Abadikan momen candid, bagikan ucapan penuh cinta, dan nikmati live gallery di hari bahagia Anda bersama Nadrical."
+        description="Real-time wedding photo sharing & digital live guest gallery platform. Capture candid guest moments, heartfelt wishes, and display live slideshows on your special day."
         url="/"
         schema={showcaseSchema}
       />

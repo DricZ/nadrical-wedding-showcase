@@ -101,13 +101,15 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                         easing: "cubic-bezier(0.16, 1, 0.3, 1)",
                       }}
                     />
-                    <span className="text-xs font-jakarta ml-0.5">Guest</span>
+                    <span className="text-xs font-jakarta ml-0.5">
+                      {guestCount === 1 ? "Guest" : "Guests"}
+                    </span>
                   </>
                 )}
               </div>
               <span className="text-[9px] sm:text-[10px] text-muted-foreground/80 mt-0.5">
                 {guestCount >= 500
-                  ? "Unlimited Guest"
+                  ? "Unlimited Guests"
                   : "Guests can capture photos"}
               </span>
             </div>
@@ -140,7 +142,7 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                 )}
               </div>
               <span className="text-[9px] sm:text-[10px] text-muted-foreground/80 mt-0.5">
-                {hasLifetimeAddon ? "Unlimited Access" : "Access Active"}
+                {hasLifetimeAddon ? "Lifetime Access" : "Cloud Storage Active"}
               </span>
             </div>
           </div>
@@ -202,8 +204,8 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                 Media Privacy
               </h5>
               <p className="text-[10px] sm:text-[11px] text-muted-foreground leading-snug">
-                Protected with an event token, keeping your memories safe from
-                outside
+                Protected with an event token, keeping your memories private &
+                secure.
               </p>
             </div>
           </div>

@@ -20,9 +20,9 @@ export const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Cara Kerja", href: "/#howto" },
-    { name: "Fitur", href: "/#features" },
-    { name: "Harga Paket", href: "/#pricing" },
+    { name: "How It Works", href: "/#howto" },
+    { name: "Features", href: "/#features" },
+    { name: "Pricing", href: "/#pricing" },
   ];
 
   return (

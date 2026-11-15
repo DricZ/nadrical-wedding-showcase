@@ -33,17 +33,17 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
   // Hardcoded comprehensive benefits
   const allBenefits = [
     hasLifetimeAddon
-      ? "Galeri aktif tersimpan selamanya (Lifetime) tanpa batas waktu kedaluwarsa"
-      : `Galeri aktif tersimpan aman selama ${storageDays || 7} hari setelah acara`,
-    `Akses kamera live hingga ${guestCount >= 500 ? "Unlimited" : guestCount} tamu secara bersamaan`,
-    `Jatah jepretan ${shotsPerGuest} foto per tamu dengan filter disposable vintage`,
-    "Download satu album penuh foto resolusi original asli tanpa kompresi",
-    "Scan QR Code meja langsung di HP tamu tanpa perlu install aplikasi apapun",
-    "Tamu dapat saling memberi ucapan doa & likes secara real-time",
-    "Dukungan live slideshow foto para tamu di layar proyektor resepsi",
-    "Privasi terjamin dengan token enkripsi unik khusus acara pernikahan Anda",
-    "Panduan cetak nomor meja & template kartu QR siap pakai",
-    "Bantuan teknis responsif sebelum dan selama hari H acara",
+      ? "Gallery active & securely preserved forever (Lifetime) with no expiration"
+      : `Gallery active & securely stored for ${storageDays || 7} days post-event`,
+    `Instant camera access for up to ${guestCount >= 500 ? "Unlimited" : guestCount} guests simultaneously`,
+    `Allocation of ${shotsPerGuest} photos per guest with vintage disposable film filters`,
+    "Full wedding album download with uncompressed original resolution",
+    "Instant table QR code scanning directly in phone browsers—zero app install required",
+    "Guests can exchange real-time congratulatory wishes & heart reactions",
+    "Live reception projector slideshow support for streaming moments in real time",
+    "Enterprise-grade privacy secured with a unique encrypted event access token",
+    "Print-ready table standee and QR card templates included",
+    "Dedicated technical assistance before and throughout your special day",
   ];
 
   return (
@@ -74,10 +74,10 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
                 </div>
                 <div>
                   <h3 className="font-space-bold text-base text-foreground">
-                    Semua Keuntungan Termasuk
+                    All Inclusions & Benefits
                   </h3>
                   <p className="text-xs font-jakarta text-muted-foreground">
-                    Estimasi untuk {guestCount >= 500 ? "Unlimited" : guestCount} Tamu Undangan
+                    Estimated for {guestCount >= 500 ? "Unlimited" : guestCount} Guests
                   </p>
                 </div>
               </div>
@@ -86,7 +86,7 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
                 type="button"
                 onClick={onClose}
                 className="p-1.5 rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
-                aria-label="Tutup"
+                aria-label="Close"
               >
                 <X size={18} />
               </button>
@@ -113,7 +113,7 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
                 onClick={onClose}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-[#ffbd59] to-[#f59e0b] font-jakarta-bold text-xs text-zinc-950 shadow-md transition-transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
-                Mengerti, Tutup
+                Got It, Close
               </button>
             </div>
           </motion.div>

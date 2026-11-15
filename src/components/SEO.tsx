@@ -23,7 +23,7 @@ export function SEO({ title, description, url, image, schema }: SEOProps) {
   const defaultTitle = `${appName} — Live Photo Sharing & Digital Wedding Gallery Platform`;
   const finalTitle = title ? `${title} | ${appName}` : defaultTitle;
   
-  const defaultDesc = `Platform galeri foto pernikahan live & pengumpulan momen tamu via scan QR code instan. Abadikan momen candid dan nikmati live gallery di hari bahagia Anda bersama ${appName}.`;
+  const defaultDesc = `Real-time wedding photo sharing & digital live guest gallery platform. Capture candid guest moments, heartfelt wishes, and display live slideshows on your special day with ${appName}.`;
   const finalDesc = description || defaultDesc;
 
   return (
