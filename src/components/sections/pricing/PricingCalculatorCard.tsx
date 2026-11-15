@@ -136,7 +136,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
             />
 
             {/* Mathematically Aligned Tick Stops with Direct Snapping (12px inset matching size-6 thumb radius) */}
-            <div className="relative mx-3 h-8 mt-2 select-none">
+            <div className="relative h-8 mx-3 mt-2 select-none">
               {guestStops.map((stop, idx) => {
                 const isSelected = localIndex === idx;
                 const percent = (idx / (guestStops.length - 1)) * 100;
@@ -147,7 +147,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                     type="button"
                     onClick={() => handleTickClick(idx)}
                     style={{ left: `${percent}%` }}
-                    className="absolute top-0 flex flex-col items-center -translate-x-1/2 transition-all duration-150 cursor-pointer"
+                    className="absolute top-0 flex flex-col items-center transition-all duration-150 -translate-x-1/2 cursor-pointer"
                   >
                     {/* Small vertical tick indicator */}
                     <span

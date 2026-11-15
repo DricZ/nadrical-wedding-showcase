@@ -63,7 +63,10 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                 locales="id-ID"
                 isolate
                 willChange
-                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                transformTiming={{
+                  duration: 200,
+                  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
               />
               <span className="text-xs text-muted-foreground ml-0.5">+</span>
             </div>
@@ -90,7 +93,10 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                     locales="id-ID"
                     isolate
                     willChange
-                    transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                    transformTiming={{
+                      duration: 200,
+                      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
                   />
                   <span className="text-xs font-jakarta ml-0.5">Tamu</span>
                 </>
@@ -119,7 +125,10 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                     locales="id-ID"
                     isolate
                     willChange
-                    transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                    transformTiming={{
+                      duration: 200,
+                      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
                   />
                   <span className="text-xs font-jakarta ml-0.5">Hari</span>
                 </>
