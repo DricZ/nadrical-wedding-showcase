@@ -1,132 +1,212 @@
-import { motion } from "framer-motion";
-import { MainButton } from "../ui/MainButton";
-import { Check } from "lucide-react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { Sparkles } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
+import { fetchWeddingPricings, type WeddingPricingApi } from "../../services/api";
+import { RetroCameraPreview } from "./pricing/RetroCameraPreview";
+import { PricingCalculatorCard } from "./pricing/PricingCalculatorCard";
+import { PricingBenefitsModal } from "./pricing/PricingBenefitsModal";
+
+const DEFAULT_PACKAGES: WeddingPricingApi[] = [
+  {
+    id: 1,
+    name: "Memory",
+    slug: "memory",
+    badge: "PALING LARIS ⚡",
+    is_popular: true,
+    original_price_idr: 500000,
+    discount_percentage: 35,
+    price_idr: 109000,
+    price_usd: 15,
+    guest_count: 50,
+    guest_slider_stops: [5, 10, 25, 50, 100, 150, 200, 500],
+    shots_options: [10, 15, 25],
+    default_shots: 15,
+    storage_days: 7,
+    features: [
+      "Galeri tersimpan 7 hari setelah acara",
+      "Sampai 50 tamu bisa ikut motret",
+      "Download satu album penuh foto resolusi tinggi",
+      "Scan QR meja tanpa instal aplikasi apapun",
+      "Live slide show foto para tamu saat resepsi",
+    ],
+    cta_text: "Buat event kamu",
+    cta_url: null,
+    is_active: true,
+    sort_order: 1,
+  },
+  {
+    id: 2,
+    name: "Heirloom",
+    slug: "heirloom",
+    badge: "BEST VALUE ✨",
+    is_popular: false,
+    original_price_idr: 750000,
+    discount_percentage: 30,
+    price_idr: 189000,
+    price_usd: 25,
+    guest_count: 150,
+    guest_slider_stops: [5, 10, 25, 50, 100, 150, 200, 500],
+    shots_options: [15, 25, 50],
+    default_shots: 25,
+    storage_days: 30,
+    features: [
+      "Galeri tersimpan 30 hari setelah acara",
+      "Hingga 150 tamu bisa ikut motret",
+      "Jatah 25 jepretan per tamu",
+      "Download zip album original & resolusi tinggi",
+      "Filter audio pesan & ucapan tamu",
+      "Dukungan kustomisasi QR code meja",
+    ],
+    cta_text: "Pilih Paket Heirloom",
+    cta_url: null,
+    is_active: true,
+    sort_order: 2,
+  },
+];
+
+const DEFAULT_STOPS = [5, 10, 25, 50, 100, 150, 200, 500];
 
 export const Pricing = () => {
   const { settings } = useSettings();
   const waNumber = settings?.company_phone
     ? settings.company_phone.replace(/\D/g, "")
-    : "6281234567890";
-  const appName = settings?.app_name || "Nadrical";
+    : "6289514930800";
 
-  const plans = [
-    {
-      name: "Basic",
-      price: "150K",
-      description:
-        "Ideal for intimate ceremonies, holy matrimony, or close family gatherings.",
-      features: [
-        "Photo Uploads Only (Max 4 photos / guest)",
-        "Public or Private Upload Options",
-        "Up to 50 Invited Guests",
-        "Instant Table QR Code Access (No app required)",
-        "Digital Wedding Gallery",
-        "Interactive Gallery with Real-Time Likes",
-      ],
-      popular: false,
-    },
-    {
-      name: "Premium",
-      price: "250K",
-      description:
-        "Our most popular choice for lively celebrations with rich guest interactions.",
-      features: [
-        "Includes All Basic Plan Features",
-        "Photo & Video Uploads (Max 6 media items / guest)",
-        "Up to 200 Invited Guests",
-        "Interactive Gallery with Real-Time Likes & Comments",
-      ],
-      popular: true,
-    },
-    {
-      name: "Exclusive",
-      price: "500K",
-      description:
-        "All-in-one unlimited experience for grand celebrations with total peace of mind.",
-      features: [
-        "Includes All Premium Plan Features",
-        "Unlimited Photo & Video Uploads",
-        "Unlimited Invited Guests",
-        "Pin Couple Wedding Photos to Gallery (By Request)",
-      ],
-      popular: false,
-    },
-  ];
+  const [packages, setPackages] = useState<WeddingPricingApi[]>(DEFAULT_PACKAGES);
+  const [selectedPackage, setSelectedPackage] = useState<WeddingPricingApi>(DEFAULT_PACKAGES[0]);
+  const [currency, setCurrency] = useState<"IDR" | "USD">("IDR");
+  const [selectedStopIndex, setSelectedStopIndex] = useState<number>(3); // Default index 3 => 50 tamu
+  const [selectedShots, setSelectedShots] = useState<number>(15);
+  const [isBenefitsModalOpen, setIsBenefitsModalOpen] = useState(false);
+
+  // Fetch from API in nadrical-system
+  useEffect(() => {
+    let isMounted = true;
+    fetchWeddingPricings()
+      .then((res) => {
+        if (isMounted && res.success && res.data && res.data.length > 0) {
+          setPackages(res.data);
+          const popularOrFirst = res.data.find((p) => p.is_popular) || res.data[0];
+          setSelectedPackage(popularOrFirst);
+          if (popularOrFirst.default_shots) {
+            setSelectedShots(popularOrFirst.default_shots);
+          }
+        }
+      })
+      .catch(() => {
+        // Silently use defaults
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const guestStops = useMemo(() => {
+    if (
+      selectedPackage.guest_slider_stops &&
+      Array.isArray(selectedPackage.guest_slider_stops) &&
+      selectedPackage.guest_slider_stops.length > 0
+    ) {
+      const parsed = selectedPackage.guest_slider_stops.map(Number).filter((n) => !isNaN(n));
+      return parsed.length > 0 ? parsed : DEFAULT_STOPS;
+    }
+    return DEFAULT_STOPS;
+  }, [selectedPackage]);
+
+  const currentGuests = guestStops[selectedStopIndex] || 50;
+
+  // Recalculate price dynamically based on guest slider
+  const { calculatedPriceIdr, calculatedPriceUsd, calculatedPerGuestIdr, calculatedPerGuestUsd } = useMemo(() => {
+    const baseGuests = selectedPackage.guest_count || 50;
+    const baseIdr = Number(selectedPackage.price_idr) || 109000;
+    const baseUsd = Number(selectedPackage.price_usd) || 15;
+
+    // Sub-linear volume curve for fair scaling
+    const ratio = currentGuests / baseGuests;
+    const scaleFactor = Math.pow(ratio, 0.72);
+
+    const priceIdr = Math.max(79000, Math.round((baseIdr * scaleFactor) / 1000) * 1000);
+    const priceUsd = Math.max(9, Math.round(baseUsd * scaleFactor));
+
+    const perGuestIdr = Math.round(priceIdr / currentGuests);
+    const perGuestUsd = Number((priceUsd / currentGuests).toFixed(2));
+
+    return {
+      calculatedPriceIdr: priceIdr,
+      calculatedPriceUsd: priceUsd,
+      calculatedPerGuestIdr: perGuestIdr,
+      calculatedPerGuestUsd: perGuestUsd,
+    };
+  }, [selectedPackage, currentGuests]);
+
+  const handleSelectPackage = useCallback((pkg: WeddingPricingApi) => {
+    setSelectedPackage(pkg);
+    if (pkg.default_shots) {
+      setSelectedShots(pkg.default_shots);
+    }
+  }, []);
 
   return (
-    <section id="pricing" className="py-24 border-t bg-card border-border">
-      <div className="container px-6 mx-auto md:px-12">
-        <div className="max-w-3xl mx-auto mb-16 text-center">
-          <h2 className="mb-6 text-4xl md:text-5xl font-space-bold text-foreground">
-            Pricing Plans
+    <section id="pricing" className="py-24 border-t bg-card/40 border-border/70 relative overflow-hidden">
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-primary/8 blur-3xl pointer-events-none rounded-full" />
+
+      <div className="container px-6 mx-auto md:px-12 relative z-10">
+        {/* Promo Header Banner */}
+        <div className="max-w-2xl mx-auto mb-16 text-center">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#ffbd59]/15 border border-[#ffbd59]/40 text-xs font-jakarta-bold text-amber-700 dark:text-[#ffbd59] mb-4 uppercase tracking-wider shadow-xs">
+            <Sparkles size={13} />
+            <span>PROMO BULAN INI</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-foreground tracking-tight leading-tight">
+            Memory & Heirloom{" "}
+            <span className="italic font-normal text-primary">30% OFF</span>
           </h2>
-          <p className="text-lg font-jakarta text-muted-foreground">
-            Transparent pricing with no hidden fees. Choose the ideal plan to
-            capture and celebrate your wedding memories.
+          <p className="mt-4 text-sm sm:text-base font-jakarta text-muted-foreground leading-relaxed">
+            Pilih paket dan tentukan estimasi kuota tamu acaramu. Abadikan seluruh momen candid tamu pernikahanmu secara live tanpa ribet.
           </p>
         </div>
 
-        <div className="grid max-w-6xl grid-cols-1 gap-8 mx-auto md:grid-cols-3">
-          {plans.map((plan, index) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative flex flex-col p-8 rounded-3xl border ${
-                plan.popular
-                  ? "border-primary bg-background shadow-xl scale-100 md:scale-105 z-10"
-                  : "border-border bg-background"
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-jakarta-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                  Most Popular
-                </div>
-              )}
+        {/* 2-Column Responsive Layout: Retro Camera Viewfinder (Left) & Calculator Card (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-center max-w-6xl mx-auto">
+          {/* Left: Retro Disposable Camera Viewfinder */}
+          <RetroCameraPreview
+            guestCount={currentGuests >= 500 ? "500+" : currentGuests}
+            selectedShots={selectedShots}
+            storageDays={selectedPackage.storage_days || 7}
+            features={selectedPackage.features}
+          />
 
-              <div className="mb-8">
-                <h3 className="mb-2 text-2xl font-space-bold text-foreground">
-                  {plan.name}
-                </h3>
-                <p className="min-h-[2.5rem] text-sm font-jakarta text-muted-foreground leading-relaxed">
-                  {plan.description}
-                </p>
-                <div className="flex items-baseline gap-1 mt-6">
-                  <span className="text-4xl font-space-bold text-foreground">
-                    Rp {plan.price}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex-1">
-                <ul className="flex flex-col gap-4">
-                  {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <Check size={20} className="text-primary shrink-0" />
-                      <span className="text-sm font-jakarta text-foreground/80">
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-8 mt-8 border-t border-border">
-                <MainButton
-                  text="Choose Plan"
-                  variant={plan.popular ? "primary" : "outline"}
-                  fullWidth
-                  href={`https://wa.me/${waNumber}?text=Hi ${appName}, I am interested in the ${plan.name} plan`}
-                  external
-                />
-              </div>
-            </motion.div>
-          ))}
+          {/* Right: Interactive Pricing Calculator Card */}
+          <PricingCalculatorCard
+            packages={packages}
+            selectedPackage={selectedPackage}
+            onSelectPackage={handleSelectPackage}
+            currency={currency}
+            onToggleCurrency={setCurrency}
+            guestStops={guestStops}
+            selectedStopIndex={selectedStopIndex}
+            onSelectStopIndex={setSelectedStopIndex}
+            selectedShots={selectedShots}
+            onSelectShots={setSelectedShots}
+            calculatedPriceIdr={calculatedPriceIdr}
+            calculatedPriceUsd={calculatedPriceUsd}
+            calculatedPerGuestIdr={calculatedPerGuestIdr}
+            calculatedPerGuestUsd={calculatedPerGuestUsd}
+            onOpenBenefits={() => setIsBenefitsModalOpen(true)}
+            waNumber={waNumber}
+          />
         </div>
       </div>
+
+      {/* Benefits Detail Modal */}
+      <PricingBenefitsModal
+        isOpen={isBenefitsModalOpen}
+        onClose={() => setIsBenefitsModalOpen(false)}
+        selectedPackage={selectedPackage}
+      />
     </section>
   );
 };

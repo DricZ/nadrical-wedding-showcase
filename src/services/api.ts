@@ -60,3 +60,33 @@ export const fetchWeddingTemplates = async (
   }
   return response.json();
 };
+
+export interface WeddingPricingApi {
+  id: number;
+  name: string;
+  slug: string;
+  badge?: string | null;
+  is_popular: boolean;
+  original_price_idr: number | string;
+  discount_percentage?: number | null;
+  price_idr: number | string;
+  price_usd?: number | string | null;
+  guest_count: number;
+  guest_slider_stops?: (number | string)[] | null;
+  shots_options?: (number | string)[] | null;
+  default_shots: number;
+  storage_days: number;
+  features?: string[] | null;
+  cta_text: string;
+  cta_url?: string | null;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export const fetchWeddingPricings = async (): Promise<{ success: boolean; data: WeddingPricingApi[] }> => {
+  const response = await fetch(`${API_BASE_URL}/wedding-pricings`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch wedding pricings");
+  }
+  return response.json();
+};

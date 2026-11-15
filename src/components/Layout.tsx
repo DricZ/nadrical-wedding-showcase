@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
@@ -17,6 +17,18 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     settings?.wedding_favicon || settings?.secondary_logo || "/favicon.ico";
   const themeColor = settings?.theme_color || "#ffbd59"; // Fallback to wedding primary color
   const companyWebsite = settings?.company_website || "https://nadrical.my.id";
+
+  // Directly synchronize and refresh the primary favicon DOM link
+  useEffect(() => {
+    if (favicon) {
+      const el = document.getElementById("app-favicon") as HTMLLinkElement | null;
+      if (el) {
+        el.href = favicon.startsWith("http")
+          ? `${favicon}${favicon.includes("?") ? "&" : "?"}v=${encodeURIComponent(favicon.slice(-8))}`
+          : favicon;
+      }
+    }
+  }, [favicon]);
 
   return (
     <SmoothScroll>

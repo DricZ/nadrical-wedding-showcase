@@ -1,110 +1,168 @@
-import { Link } from "react-router-dom";
 import { useSettings } from "../contexts/SettingsContext";
+import { Heart, Sparkles, MessageCircle, Globe, Mail, ArrowUp } from "lucide-react";
 
 export const Footer = () => {
   const { settings } = useSettings();
+  const rawPhone = settings?.company_phone ? settings.company_phone.replace(/\D/g, "") : "6289514930800";
+  const waUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent("Halo Nadrical Wedding, saya tertarik dengan layanan live gallery & photo sharing pernikahan.")}`;
+  const companyWebsite = settings?.company_website || "nadrical.my.id";
+
+  const scrollToTop = () => {
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
-    <footer className="py-12 mt-auto border-t bg-card border-border">
+    <footer className="mt-auto border-t bg-card/60 backdrop-blur-md border-border/70 py-14 transition-colors">
       <div className="container px-6 mx-auto md:px-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="col-span-1 md:col-span-2">
-            <h2 className="flex items-center gap-2 mb-4 text-2xl font-space-bold text-primary">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:grid-cols-5">
+          {/* Brand & Description (2 cols on large) */}
+          <div className="md:col-span-2 lg:col-span-2 flex flex-col gap-4">
+            <a
+              href="/"
+              className="flex items-center gap-2 text-2xl font-space-bold tracking-tight text-primary transition-opacity hover:opacity-90"
+            >
               {settings?.wedding_logo || settings?.app_logo ? (
                 <img
                   src={settings?.wedding_logo || settings.app_logo}
-                  alt={settings?.app_name || "Logo"}
+                  alt={settings?.app_name || "Nadrical Wedding Logo"}
                   className="object-contain w-auto h-8"
                 />
               ) : (
-                <>
-                  {settings?.app_name || "Nadrical"}
-                  <span className="text-xl text-muted-foreground font-space-regular">
-                    .wedding
+                <div className="flex items-center gap-2">
+                  <span className="font-space-bold text-foreground">
+                    {settings?.app_name || "Nadrical"}
                   </span>
-                </>
+                  <span className="font-serif italic text-primary">.wedding</span>
+                </div>
               )}
-            </h2>
+            </a>
+
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground font-jakarta">
-              Premium digital wedding album & guest moments platform designed to capture unforgettable memories for your special day.
+              Platform galeri foto pernikahan live & pengumpulan momen tamu via scan QR code instan. Abadikan setiap senyum, tawa, dan ucapan bahagia para tamu tanpa batas aplikasi.
             </p>
+
+            <div className="flex items-center gap-2 text-xs text-muted-foreground font-jakarta pt-1">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary border border-border/60 text-foreground/80 font-medium">
+                <Sparkles size={13} className="text-primary" />
+                Live Guest Moments
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary border border-border/60 text-foreground/80 font-medium">
+                <Heart size={13} className="text-primary fill-primary" />
+                Dibuat untuk Hari Bahagiamu
+              </span>
+            </div>
           </div>
 
-          <div>
-            <h3 className="mb-4 font-space-medium text-foreground">Services</h3>
-            <ul className="flex flex-col gap-2">
+          {/* Navigation Links */}
+          <div className="flex flex-col gap-3">
+            <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
+              Navigasi
+            </h3>
+            <ul className="flex flex-col gap-2.5">
               <li>
-                <Link
-                  to="/"
-                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
+                <a
+                  href="/#howto"
+                  className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Wedding Website
-                </Link>
+                  Cara Kerja
+                </a>
               </li>
               <li>
-                <Link
-                  to="/themes"
-                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
+                <a
+                  href="/#features"
+                  className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Theme Catalog
-                </Link>
+                  Fitur Unggulan
+                </a>
               </li>
               <li>
-                <Link
-                  to="/#pricing"
-                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
+                <a
+                  href="/#pricing"
+                  className="text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Pricing Plans
-                </Link>
+                  Pilihan Paket & Harga
+                </a>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h3 className="mb-4 font-space-medium text-foreground">Contact</h3>
-            <ul className="flex flex-col gap-2">
-              {settings?.company_phone && (
-                <li>
-                  <a
-                    href={`https://wa.me/${settings.company_phone.replace(/\D/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
-                  >
-                    WhatsApp
-                  </a>
-                </li>
-              )}
-              {settings?.company_website && (
-                <li>
-                  <a
-                    href={`https://${settings.company_website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
-                  >
-                    Website
-                  </a>
-                </li>
-              )}
+          {/* Keunggulan */}
+          <div className="flex flex-col gap-3">
+            <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
+              Keunggulan
+            </h3>
+            <ul className="flex flex-col gap-2.5 text-sm font-jakarta text-muted-foreground">
+              <li>Scan QR Meja Instan</li>
+              <li>Tanpa Instal Aplikasi</li>
+              <li>Download Album HD Full</li>
+              <li>Live Resepsi Slideshow</li>
+            </ul>
+          </div>
+
+          {/* Contact & Support */}
+          <div className="flex flex-col gap-3">
+            <h3 className="font-space-medium text-sm text-foreground tracking-wide uppercase">
+              Hubungi Kami
+            </h3>
+            <ul className="flex flex-col gap-3">
               <li>
                 <a
-                  href="#"
-                  className="text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Email
+                  <MessageCircle size={15} className="text-emerald-500 shrink-0" />
+                  <span>WhatsApp Konsultasi</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`https://${companyWebsite.replace(/^https?:\/\//, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Globe size={15} className="text-primary shrink-0" />
+                  <span>{companyWebsite}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:halo@nadrical.my.id"
+                  className="inline-flex items-center gap-2 text-sm font-jakarta text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Mail size={15} className="text-amber-500 shrink-0" />
+                  <span>halo@nadrical.my.id</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-4 pt-8 mt-12 border-t border-border md:flex-row">
-          <p className="text-xs font-jakarta text-muted-foreground">
+        {/* Bottom Bar: Copyright & Back to Top */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 mt-12 border-t border-border/80">
+          <p className="text-xs font-jakarta text-muted-foreground text-center sm:text-left">
             &copy; {new Date().getFullYear()}{" "}
-            {settings?.copyright || settings?.app_name || "Nadrical Wedding"}.
-            All rights reserved.
+            <span className="font-medium text-foreground">
+              {settings?.copyright || settings?.app_name || "Nadrical Wedding"}
+            </span>
+            . All rights reserved.
           </p>
+
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border bg-secondary/80 text-xs font-jakarta text-foreground/80 hover:text-primary hover:border-primary/50 transition-all cursor-pointer shadow-xs active:scale-95"
+            title="Kembali ke atas"
+          >
+            <span>Kembali ke Atas</span>
+            <ArrowUp size={13} className="text-primary" />
+          </button>
         </div>
       </div>
     </footer>
