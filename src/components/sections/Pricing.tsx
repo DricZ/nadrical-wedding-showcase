@@ -84,7 +84,7 @@ const DEFAULT_TIERS: WeddingPricingApi[] = [
     discount_percentage: 20,
     shots_options: [10, 20, 30],
     default_shots: 10,
-    storage_days: 30,
+    storage_days: 9999,
     is_active: true,
     sort_order: 6,
   },
@@ -157,14 +157,23 @@ export const Pricing = () => {
         ? Math.round(basePrice / (1 - tierDiscount / 100))
         : 0;
 
-  const price = hasLifetimeAddon ? basePrice + LIFETIME_ADDON_PRICE : basePrice;
-  const normalPrice = hasLifetimeAddon
-    ? baseNormalPrice > 0
-      ? baseNormalPrice + LIFETIME_ADDON_PRICE
-      : LIFETIME_ADDON_PRICE
-    : baseNormalPrice;
+  const isUnlimited = currentGuests >= 500;
+  const isEffectiveLifetime = isUnlimited || hasLifetimeAddon;
+
+  const price = isUnlimited
+    ? basePrice
+    : hasLifetimeAddon
+      ? basePrice + LIFETIME_ADDON_PRICE
+      : basePrice;
+  const normalPrice = isUnlimited
+    ? baseNormalPrice
+    : hasLifetimeAddon
+      ? baseNormalPrice > 0
+        ? baseNormalPrice + LIFETIME_ADDON_PRICE
+        : LIFETIME_ADDON_PRICE
+      : baseNormalPrice;
   const perGuest = currentGuests > 0 ? Math.round(price / currentGuests) : 0;
-  const storageDays = currentTier.storage_days || 7;
+  const storageDays = isUnlimited ? 9999 : currentTier.storage_days || 7;
 
   return (
     <section
@@ -200,7 +209,7 @@ export const Pricing = () => {
             guestCount={currentGuests}
             selectedShots={effectiveShots}
             storageDays={storageDays}
-            hasLifetimeAddon={hasLifetimeAddon}
+            hasLifetimeAddon={isEffectiveLifetime}
           />
 
           <PricingCalculatorCard
@@ -213,7 +222,8 @@ export const Pricing = () => {
             price={price}
             normalPrice={normalPrice}
             perGuest={perGuest}
-            hasLifetimeAddon={hasLifetimeAddon}
+            hasLifetimeAddon={isEffectiveLifetime}
+            isUnlimited={isUnlimited}
             onToggleLifetimeAddon={setHasLifetimeAddon}
             onOpenBenefits={() => setIsBenefitsOpen(true)}
             waNumber={waNumber}
@@ -227,7 +237,7 @@ export const Pricing = () => {
           guestCount={currentGuests}
           storageDays={storageDays}
           shotsPerGuest={effectiveShots}
-          hasLifetimeAddon={hasLifetimeAddon}
+          hasLifetimeAddon={isEffectiveLifetime}
         />
       </div>
     </section>

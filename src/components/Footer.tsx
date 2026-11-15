@@ -1,5 +1,11 @@
 import { useSettings } from "../contexts/SettingsContext";
-import { Heart, Sparkles, MessageCircle, ArrowUp, Instagram } from "lucide-react";
+import {
+  Heart,
+  Sparkles,
+  MessageCircle,
+  ArrowUp,
+  Instagram,
+} from "lucide-react";
 
 export const Footer = () => {
   const { settings } = useSettings();
@@ -122,10 +128,7 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
-                  <Instagram
-                    size={15}
-                    className="text-pink-500 shrink-0"
-                  />
+                  <Instagram size={15} className="text-pink-500 shrink-0" />
                   <span>Instagram @lumentt.id</span>
                 </a>
               </li>

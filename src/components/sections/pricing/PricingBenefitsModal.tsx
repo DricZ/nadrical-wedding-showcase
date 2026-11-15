@@ -44,9 +44,12 @@ export const PricingBenefitsModal = memo(function PricingBenefitsModal({
     };
   }, [isOpen, onClose]);
 
+  const isUnlimited = guestCount >= 500;
+  const isEffectiveLifetime = isUnlimited || hasLifetimeAddon;
+
   // Hardcoded comprehensive benefits
   const allBenefits = [
-    hasLifetimeAddon
+    isEffectiveLifetime
       ? "Gallery active & securely preserved forever (Lifetime) with no expiration"
       : `Gallery active & securely stored for ${storageDays || 7} days post-event`,
     `Instant camera access for up to ${guestCount >= 500 ? "Unlimited" : guestCount} guests simultaneously`,

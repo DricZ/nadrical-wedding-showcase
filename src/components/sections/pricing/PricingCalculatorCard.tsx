@@ -16,6 +16,7 @@ interface PricingCalculatorCardProps {
   normalPrice?: number;
   perGuest: number;
   hasLifetimeAddon: boolean;
+  isUnlimited?: boolean;
   onToggleLifetimeAddon: (checked: boolean) => void;
   onOpenBenefits: () => void;
   waNumber: string;
@@ -32,6 +33,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   normalPrice = 0,
   perGuest,
   hasLifetimeAddon,
+  isUnlimited = false,
   onToggleLifetimeAddon,
   onOpenBenefits,
   waNumber,
@@ -93,9 +95,11 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
     `Hello Lument, I'd like to consult and reserve a live wedding gallery package:\n\n` +
       `• Estimated Guests: ${currentGuests >= 500 ? "Unlimited (500+)" : `${currentGuests} Guests`}\n` +
       `• Camera Allocation: ${selectedShots} Photos/Guest\n` +
-      (hasDiscount ? `• Normal Price: Rp ${normalPrice.toLocaleString("id-ID")}\n` : "") +
+      (hasDiscount
+        ? `• Normal Price: Rp ${normalPrice.toLocaleString("id-ID")}\n`
+        : "") +
       `• Total Investment: Rp ${price.toLocaleString("id-ID")}${hasDiscount ? ` (Save ${discountPercent}%)` : ""}\n` +
-      `• Lifetime Add-on: ${hasLifetimeAddon ? "Yes (+Rp 50,000)" : "No"}\n\n` +
+      `• Lifetime Add-on: ${isUnlimited ? "Included in Unlimited Plan (Forever)" : hasLifetimeAddon ? "Yes (+Rp 50,000)" : "No"}\n\n` +
       `Please let me know your date availability and next steps. Thank you!`,
   );
   const waUrl = `https://wa.me/${waNumber}?text=${waMessage}`;
@@ -238,7 +242,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
               <span className="text-[11px] font-jakarta-medium text-muted-foreground/80">
                 Normal Price:
               </span>
-              <span className="text-xs sm:text-sm line-through decoration-rose-500/70 font-space-bold text-muted-foreground">
+              <span className="text-xs line-through sm:text-sm decoration-rose-500/70 font-space-bold text-muted-foreground">
                 Rp {normalPrice.toLocaleString("id-ID")}
               </span>
               <span className="px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 font-jakarta-bold text-[10px]">
@@ -288,7 +292,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                   </strong>{" "}
                   / guest
                   {savings > 0 && (
-                    <span className="hidden sm:inline text-emerald-600 dark:text-emerald-400 font-jakarta-semibold ml-1">
+                    <span className="hidden ml-1 sm:inline text-emerald-600 dark:text-emerald-400 font-jakarta-semibold">
                       (Save Rp {savings.toLocaleString("id-ID")})
                     </span>
                   )}
@@ -309,48 +313,67 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
 
         {/* Step 3.5: Lifetime Website Addon Option */}
         <div
-          onClick={() => onToggleLifetimeAddon(!hasLifetimeAddon)}
+          onClick={isUnlimited ? undefined : () => onToggleLifetimeAddon(!hasLifetimeAddon)}
           role="checkbox"
-          aria-checked={hasLifetimeAddon}
-          tabIndex={0}
+          aria-checked={isUnlimited || hasLifetimeAddon}
+          aria-disabled={isUnlimited}
+          tabIndex={isUnlimited ? -1 : 0}
           onKeyDown={(e) => {
+            if (isUnlimited) return;
             if (e.key === " " || e.key === "Enter") {
               e.preventDefault();
               onToggleLifetimeAddon(!hasLifetimeAddon);
             }
           }}
-          className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 cursor-pointer select-none flex items-center justify-between gap-2.5 sm:gap-3 ${
-            hasLifetimeAddon
-              ? "bg-amber-500/10 dark:bg-amber-400/10 border-primary shadow-sm ring-1 ring-primary/40"
-              : "bg-secondary/40 border-border/70 hover:border-primary/40 hover:bg-secondary/60"
+          className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-200 select-none flex items-center justify-between gap-2.5 sm:gap-3 ${
+            isUnlimited
+              ? "bg-emerald-500/10 dark:bg-emerald-400/10 border-emerald-500/40 shadow-xs ring-1 ring-emerald-500/30 cursor-default"
+              : hasLifetimeAddon
+                ? "bg-amber-500/10 dark:bg-amber-400/10 border-primary shadow-sm ring-1 ring-primary/40 cursor-pointer"
+                : "bg-secondary/40 border-border/70 hover:border-primary/40 hover:bg-secondary/60 cursor-pointer"
           }`}
         >
           <div className="flex items-center gap-2.5">
             <div
               className={`w-4 h-4 sm:w-5 sm:h-5 rounded-md flex items-center justify-center transition-colors shrink-0 ${
-                hasLifetimeAddon
-                  ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                  : "border-2 border-muted-foreground/40 bg-background"
+                isUnlimited
+                  ? "bg-emerald-600 text-white font-bold shadow-xs"
+                  : hasLifetimeAddon
+                    ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                    : "border-2 border-muted-foreground/40 bg-background"
               }`}
             >
-              {hasLifetimeAddon && <Check size={12} strokeWidth={3} />}
+              {(isUnlimited || hasLifetimeAddon) && <Check size={12} strokeWidth={3} />}
             </div>
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="text-xs leading-tight sm:text-sm font-jakarta-bold text-foreground">
                   Lifetime Gallery Access
                 </span>
+                {isUnlimited && (
+                  <span className="px-1.5 py-0.2 rounded bg-emerald-500/15 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-jakarta-bold text-[9px] uppercase tracking-wider">
+                    Included
+                  </span>
+                )}
               </div>
               <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                Keep all your guest photos, videos, and wishes online forever.
+                {isUnlimited
+                  ? "Included with Unlimited Plan. Keep all photos, videos & wishes forever."
+                  : "Keep all your guest photos, videos, and wishes online forever."}
               </p>
             </div>
           </div>
 
           <div className="text-right shrink-0">
-            <span className="text-xs sm:text-sm font-space-bold text-primary">
-              +Rp 50.000
-            </span>
+            {isUnlimited ? (
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-jakarta-bold text-[10px] sm:text-[11px]">
+                Included
+              </span>
+            ) : (
+              <span className="text-xs sm:text-sm font-space-bold text-primary">
+                +Rp 50.000
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -364,7 +387,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           onClick={handleCtaClick}
           className="flex items-center justify-center gap-2 w-full py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#ffbd59] via-amber-500 to-[#f59e0b] text-zinc-950 font-jakarta-bold text-xs sm:text-sm tracking-wide shadow-lg shadow-amber-500/20 transition-all duration-200 hover:opacity-95 hover:scale-[1.01] active:scale-[0.98] cursor-pointer"
         >
-          <span>{price === 0 ? "Try Free Demo Now" : "Reserve Now"}</span>
+          <span>Reserve Now</span>
           <ArrowRight size={15} />
         </a>
       </div>

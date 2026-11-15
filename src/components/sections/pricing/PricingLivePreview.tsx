@@ -24,6 +24,8 @@ export const PricingLivePreview = memo(function PricingLivePreview({
   storageDays,
   hasLifetimeAddon,
 }: PricingLivePreviewProps) {
+  const isUnlimited = guestCount >= 500;
+  const isEffectiveLifetime = isUnlimited || hasLifetimeAddon;
   const totalPhotos = guestCount * selectedShots;
 
   return (
@@ -121,7 +123,7 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                 <span>Gallery</span>
               </div>
               <div className="flex items-baseline text-lg font-space-bold sm:text-xl text-foreground">
-                {hasLifetimeAddon ? (
+                {isEffectiveLifetime ? (
                   <span className="text-sm font-bold text-amber-500 sm:text-base">
                     Forever
                   </span>
@@ -142,7 +144,7 @@ export const PricingLivePreview = memo(function PricingLivePreview({
                 )}
               </div>
               <span className="text-[9px] sm:text-[10px] text-muted-foreground/80 mt-0.5">
-                {hasLifetimeAddon ? "Lifetime Access" : "Cloud Storage Active"}
+                {isEffectiveLifetime ? "Lifetime Access" : "Cloud Storage Active"}
               </span>
             </div>
           </div>
