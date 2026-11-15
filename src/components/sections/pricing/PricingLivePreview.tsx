@@ -56,7 +56,13 @@ export const PricingLivePreview = memo(function PricingLivePreview({
               <span className="sm:hidden">Foto</span>
             </div>
             <div className="font-space-bold text-xl sm:text-2xl text-foreground flex items-baseline">
-              <NumberFlow value={totalPhotos} locales="id-ID" />
+              <NumberFlow
+                value={totalPhotos}
+                locales="id-ID"
+                isolate
+                willChange
+                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+              />
               <span className="text-xs text-muted-foreground ml-0.5">+</span>
             </div>
             <span className="text-[10px] text-muted-foreground/80 mt-0.5">
@@ -71,7 +77,13 @@ export const PricingLivePreview = memo(function PricingLivePreview({
               <span>Kapasitas</span>
             </div>
             <div className="font-space-bold text-xl sm:text-2xl text-foreground flex items-baseline">
-              <NumberFlow value={guestCount} locales="id-ID" />
+              <NumberFlow
+                value={guestCount}
+                locales="id-ID"
+                isolate
+                willChange
+                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+              />
               {guestCount >= 500 && (
                 <span className="text-xs text-amber-500 ml-0.5">+</span>
               )}
@@ -88,7 +100,13 @@ export const PricingLivePreview = memo(function PricingLivePreview({
               <span>Simpan</span>
             </div>
             <div className="font-space-bold text-xl sm:text-2xl text-foreground flex items-baseline">
-              <NumberFlow value={storageDays} locales="id-ID" />
+              <NumberFlow
+                value={storageDays}
+                locales="id-ID"
+                isolate
+                willChange
+                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+              />
               <span className="text-xs font-jakarta ml-0.5">Hari</span>
             </div>
             <span className="text-[10px] text-muted-foreground/80 mt-0.5">

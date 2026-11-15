@@ -1,8 +1,8 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState, useEffect, startTransition } from "react";
 import { ArrowRight, HelpCircle, Sparkles, CheckCircle2 } from "lucide-react";
-import * as Slider from "@radix-ui/react-slider";
 import NumberFlow from "@number-flow/react";
 import confetti from "canvas-confetti";
+import { Slider } from "@/components/ui/slider";
 import type { WeddingPricingApi } from "../../../services/api";
 
 interface PricingCalculatorCardProps {
@@ -19,17 +19,6 @@ interface PricingCalculatorCardProps {
   waNumber: string;
 }
 
-const PRESET_STOPS = [
-  { label: "10", index: 0 },
-  { label: "25", index: 1 },
-  { label: "50 ⭐", index: 2 },
-  { label: "100", index: 3 },
-  { label: "150", index: 4 },
-  { label: "200", index: 5 },
-  { label: "300", index: 6 },
-  { label: "500+", index: 7 },
-];
-
 export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   currentTier,
   guestStops,
@@ -43,7 +32,35 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
   onOpenBenefits,
   waNumber,
 }: PricingCalculatorCardProps) {
-  const currentGuests = guestStops[selectedStopIndex] || 50;
+  // Local state for instant 60fps slider dragging
+  const [localIndex, setLocalIndex] = useState<number>(selectedStopIndex);
+
+  useEffect(() => {
+    setLocalIndex(selectedStopIndex);
+  }, [selectedStopIndex]);
+
+  // High-performance 60fps slider handler using React 19 startTransition
+  const handleSliderChange = useCallback(
+    ([val]: number[]) => {
+      setLocalIndex(val);
+      startTransition(() => {
+        onSelectStopIndex(val);
+      });
+    },
+    [onSelectStopIndex]
+  );
+
+  const handleTickClick = useCallback(
+    (index: number) => {
+      setLocalIndex(index);
+      startTransition(() => {
+        onSelectStopIndex(index);
+      });
+    },
+    [onSelectStopIndex]
+  );
+
+  const currentGuests = guestStops[localIndex] || 50;
   const isPopular = currentGuests === 50;
 
   // Shots options
@@ -89,62 +106,86 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
       </div>
 
       <div className="py-5 space-y-6">
-        {/* Step 1: Guest Count Selection & Interactive Slider */}
+        {/* Step 1: Guest Count Selection with Official shadcn Slider */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <label className="text-xs font-jakarta-bold uppercase tracking-wider text-muted-foreground">
               1. Perkiraan Jumlah Undangan
             </label>
             <div className="flex items-baseline gap-1 font-space-bold text-xl text-primary">
-              <NumberFlow value={currentGuests} locales="id-ID" />
+              <NumberFlow
+                value={currentGuests}
+                locales="id-ID"
+                isolate
+                willChange
+                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+              />
               <span className="text-xs font-jakarta-bold text-foreground">
                 {currentGuests >= 500 ? "+ Tamu" : " Tamu"}
               </span>
             </div>
           </div>
 
-          {/* Radix UI Range Slider */}
-          <div className="py-2.5">
-            <Slider.Root
-              className="relative flex items-center select-none touch-none w-full h-8 cursor-grab active:cursor-grabbing"
-              value={[selectedStopIndex]}
-              onValueChange={([val]) => onSelectStopIndex(val)}
+          {/* Official shadcn Slider Component */}
+          <div className="relative pt-1 pb-2">
+            <Slider
+              value={[localIndex]}
+              onValueChange={handleSliderChange}
               max={guestStops.length - 1}
               min={0}
               step={1}
               aria-label="Pilih Jumlah Tamu Undangan"
-            >
-              <Slider.Track className="bg-secondary relative grow rounded-full h-2.5 overflow-hidden shadow-inner">
-                <Slider.Range className="absolute bg-gradient-to-r from-amber-500 via-[#ffbd59] to-amber-400 h-full rounded-full transition-all" />
-              </Slider.Track>
-              <Slider.Thumb className="block w-6 h-6 bg-white dark:bg-zinc-950 border-[3px] border-[#ffbd59] rounded-full shadow-lg ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:scale-125 active:scale-95" />
-            </Slider.Root>
-          </div>
+              className="py-2"
+            />
 
-          {/* Preset Buttons Grid */}
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5 mt-2">
-            {PRESET_STOPS.map((p) => {
-              const isSelected = selectedStopIndex === p.index;
-              return (
-                <button
-                  key={p.label}
-                  type="button"
-                  onClick={() => onSelectStopIndex(p.index)}
-                  className={`py-1.5 px-1 rounded-xl text-xs font-space-bold transition-all cursor-pointer border text-center ${
-                    isSelected
-                      ? "bg-primary text-primary-foreground border-primary shadow-xs font-bold scale-102"
-                      : "bg-secondary/60 text-muted-foreground border-transparent hover:border-border hover:text-foreground"
-                  }`}
-                >
-                  {p.label}
-                </button>
-              );
-            })}
+            {/* Mathematically Aligned Tick Stops with Direct Snapping */}
+            <div className="relative w-full h-8 mt-2 select-none">
+              {guestStops.map((stop, idx) => {
+                const isSelected = localIndex === idx;
+                const percent = (idx / (guestStops.length - 1)) * 100;
+                const isFirst = idx === 0;
+                const isLast = idx === guestStops.length - 1;
+
+                return (
+                  <button
+                    key={stop}
+                    type="button"
+                    onClick={() => handleTickClick(idx)}
+                    style={{ left: `${percent}%` }}
+                    className={`absolute top-0 flex flex-col items-center transition-all duration-150 cursor-pointer ${
+                      isFirst
+                        ? "translate-x-0 items-start"
+                        : isLast
+                        ? "-translate-x-full items-end"
+                        : "-translate-x-1/2 items-center"
+                    }`}
+                  >
+                    {/* Small vertical tick indicator */}
+                    <span
+                      className={`w-1 h-1.5 rounded-full mb-1 transition-colors ${
+                        isSelected ? "bg-primary scale-125" : "bg-muted-foreground/30"
+                      }`}
+                    />
+                    {/* Value Badge */}
+                    <span
+                      className={`text-[11px] font-space-bold px-1.5 py-0.5 rounded-md transition-all ${
+                        isSelected
+                          ? "bg-primary text-primary-foreground font-bold shadow-xs scale-110"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {stop >= 500 ? "500+" : stop}
+                      {stop === 50 ? " ⭐" : ""}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Step 2: Jatah Jepretan Per Tamu */}
-        <div className="pt-4 border-t border-border/60">
+        <div className="pt-3 border-t border-border/60">
           <div className="flex items-center justify-between mb-2.5">
             <label className="text-xs font-jakarta-bold uppercase tracking-wider text-muted-foreground">
               2. Jatah Jepretan Kamera per Tamu
@@ -178,7 +219,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           </div>
         </div>
 
-        {/* Step 3: Transparent Investment Box */}
+        {/* Step 3: Transparent Investment Box with GPU Isolation */}
         <div className="p-5 rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border border-primary/20 shadow-inner">
           <div className="flex items-center justify-between text-xs font-jakarta-medium text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -195,7 +236,13 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           <div className="flex items-baseline gap-1 mt-2.5 text-foreground font-space-bold">
             <span className="text-2xl sm:text-3xl font-bold">Rp</span>
             <span className="text-4xl sm:text-5xl font-bold tracking-tight">
-              <NumberFlow value={price} locales="id-ID" />
+              <NumberFlow
+                value={price}
+                locales="id-ID"
+                isolate
+                willChange
+                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+              />
             </span>
             <span className="text-xs font-jakarta-normal text-muted-foreground ml-1">
               / seluruh acara
