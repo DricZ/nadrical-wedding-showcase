@@ -1,5 +1,5 @@
 import { useSettings } from "../contexts/SettingsContext";
-import { Heart, Sparkles, MessageCircle, Globe, ArrowUp } from "lucide-react";
+import { Heart, Sparkles, MessageCircle, ArrowUp, Instagram } from "lucide-react";
 
 export const Footer = () => {
   const { settings } = useSettings();
@@ -7,7 +7,6 @@ export const Footer = () => {
     ? settings.company_phone.replace(/\D/g, "")
     : "6289514930800";
   const waUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent("Hello Nadrical Wedding, I'm interested in the live wedding gallery and guest photo sharing service.")}`;
-  const companyWebsite = settings?.company_website || "nadrical.my.id";
 
   const scrollToTop = () => {
     if (window.__lenis) {
@@ -118,13 +117,35 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href={`https://${companyWebsite.replace(/^https?:\/\//, "")}`}
+                  href="https://www.instagram.com/lumentt.id?rpxt=dmxpeWdwMjE0M3Rl"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
                 >
-                  <Globe size={15} className="text-primary shrink-0" />
-                  <span>{companyWebsite}</span>
+                  <Instagram
+                    size={15}
+                    className="text-pink-500 shrink-0"
+                  />
+                  <span>Instagram @lumentt.id</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.tiktok.com/@lument.id?_r=1&_t=ZS-9BQvG8MqKd4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm transition-colors font-jakarta text-muted-foreground hover:text-primary"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width={15}
+                    height={15}
+                    fill="currentColor"
+                    className="shrink-0"
+                  >
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" />
+                  </svg>
+                  <span>TikTok @lument.id</span>
                 </a>
               </li>
             </ul>
