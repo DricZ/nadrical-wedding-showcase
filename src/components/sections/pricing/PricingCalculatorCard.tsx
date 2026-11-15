@@ -46,7 +46,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         onSelectStopIndex(val);
       });
     },
-    [onSelectStopIndex]
+    [onSelectStopIndex],
   );
 
   const handleTickClick = useCallback(
@@ -56,7 +56,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         onSelectStopIndex(index);
       });
     },
-    [onSelectStopIndex]
+    [onSelectStopIndex],
   );
 
   const currentGuests = guestStops[localIndex] || 50;
@@ -79,42 +79,30 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
 
   const waMessage = encodeURIComponent(
     `Halo Lument! Saya tertarik memesan untuk estimasi *${currentGuests} tamu* dengan jatah *${selectedShots} foto/tamu*. Total investasi: *Rp ${price.toLocaleString(
-      "id-ID"
-    )}*. Boleh info ketersediaan tanggal dan langkah pemesanannya?`
+      "id-ID",
+    )}*. Boleh info ketersediaan tanggal dan langkah pemesanannya?`,
   );
   const waUrl = `https://wa.me/${waNumber}?text=${waMessage}`;
 
   return (
     <div className="flex flex-col w-full h-full justify-between p-6 sm:p-8 rounded-[2.5rem] border-2 border-primary/30 bg-card/90 dark:bg-zinc-900/90 backdrop-blur-xl shadow-2xl relative transition-all duration-300">
-      {/* Floating Header Badge */}
-      <div className="flex items-center justify-between gap-3 pb-5 border-b border-border/60">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500/20 to-primary/20 border border-primary/30 text-amber-900 dark:text-amber-300 text-xs font-jakarta-bold uppercase tracking-wider">
-          <Sparkles size={13} className="text-[#ffbd59]" />
-          <span>
-            {currentTier.badge ||
-              (isPopular ? "Paling Banyak Dipilih ⚡" : "Kalkulator Investasi")}
-          </span>
-        </div>
-
-        <span className="text-[11px] font-jakarta-medium text-muted-foreground">
-          Tanpa Biaya Tersembunyi
-        </span>
-      </div>
-
       <div className="py-5 space-y-6">
         {/* Step 1: Guest Count Selection with Official shadcn Slider */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="text-xs font-jakarta-bold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
               1. Perkiraan Jumlah Undangan
             </label>
-            <div className="flex items-baseline gap-1 font-space-bold text-xl text-primary">
+            <div className="flex items-baseline gap-1 text-xl font-space-bold text-primary">
               <NumberFlow
                 value={currentGuests}
                 locales="id-ID"
                 isolate
                 willChange
-                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                transformTiming={{
+                  duration: 200,
+                  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
               />
               <span className="text-xs font-jakarta-bold text-foreground">
                 {currentGuests >= 500 ? "+ Tamu" : " Tamu"}
@@ -152,14 +140,16 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                       isFirst
                         ? "translate-x-0 items-start"
                         : isLast
-                        ? "-translate-x-full items-end"
-                        : "-translate-x-1/2 items-center"
+                          ? "-translate-x-full items-end"
+                          : "-translate-x-1/2 items-center"
                     }`}
                   >
                     {/* Small vertical tick indicator */}
                     <span
                       className={`w-1 h-1.5 rounded-full mb-1 transition-colors ${
-                        isSelected ? "bg-primary scale-125" : "bg-muted-foreground/30"
+                        isSelected
+                          ? "bg-primary scale-125"
+                          : "bg-muted-foreground/30"
                       }`}
                     />
                     {/* Value Badge */}
@@ -183,7 +173,7 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         {/* Step 2: Jatah Jepretan Per Tamu */}
         <div className="pt-3 border-t border-border/60">
           <div className="flex items-center justify-between mb-2.5">
-            <label className="text-xs font-jakarta-bold uppercase tracking-wider text-muted-foreground">
+            <label className="text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
               2. Jatah Jepretan Kamera per Tamu
             </label>
             <span className="text-xs font-jakarta-semibold text-primary">
@@ -206,9 +196,6 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
                   }`}
                 >
                   <span className="text-sm font-space-bold">{shots} Foto</span>
-                  <span className="text-[10px] font-normal opacity-80">
-                    {shots === 15 ? "Paling Pas" : shots === 25 ? "Ekstra" : "Hemat"}
-                  </span>
                 </button>
               );
             })}
@@ -216,8 +203,8 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
         </div>
 
         {/* Step 3: Transparent Investment Box with GPU Isolation */}
-        <div className="p-5 rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border border-primary/20 shadow-inner">
-          <div className="flex items-center justify-between text-xs font-jakarta-bold uppercase tracking-wider text-muted-foreground mb-1">
+        <div className="p-5 border shadow-inner rounded-2xl bg-amber-500/5 dark:bg-amber-400/5 border-primary/20">
+          <div className="flex items-center justify-between mb-1 text-xs tracking-wider uppercase font-jakarta-bold text-muted-foreground">
             <span>3. Total Investasi</span>
             <span className="text-[11px] font-jakarta-medium text-emerald-600 dark:text-emerald-400">
               Sekali Bayar · Tanpa Langganan
@@ -225,30 +212,37 @@ export const PricingCalculatorCard = memo(function PricingCalculatorCard({
           </div>
 
           <div className="flex items-baseline gap-1 mt-2 text-foreground font-space-bold">
-            <span className="text-2xl sm:text-3xl font-bold">Rp</span>
-            <span className="text-4xl sm:text-5xl font-bold tracking-tight">
+            <span className="text-2xl font-bold sm:text-3xl">Rp</span>
+            <span className="text-4xl font-bold tracking-tight sm:text-5xl">
               <NumberFlow
                 value={price}
                 locales="id-ID"
                 isolate
                 willChange
-                transformTiming={{ duration: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+                transformTiming={{
+                  duration: 200,
+                  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
               />
             </span>
-            <span className="text-xs font-jakarta-normal text-muted-foreground ml-1">
+            <span className="ml-1 text-xs font-jakarta-normal text-muted-foreground">
               / seluruh acara
             </span>
           </div>
 
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-primary/10">
+          <div className="flex items-center justify-between pt-3 mt-3 border-t border-primary/10">
             <span className="text-xs font-jakarta-medium text-muted-foreground">
-              Hanya <strong className="text-foreground">Rp {perGuest.toLocaleString("id-ID")}</strong> / tamu
+              Hanya{" "}
+              <strong className="text-foreground">
+                Rp {perGuest.toLocaleString("id-ID")}
+              </strong>{" "}
+              / tamu
             </span>
 
             <button
               type="button"
               onClick={onOpenBenefits}
-              className="inline-flex items-center gap-1 text-xs font-jakarta-semibold text-primary hover:underline cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs cursor-pointer font-jakarta-semibold text-primary hover:underline"
             >
               <HelpCircle size={13} />
               <span>Rincian Benefit Lengkap</span>
